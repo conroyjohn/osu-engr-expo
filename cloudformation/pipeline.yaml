@@ -182,6 +182,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - "cloudformation:DescribeStacks"
+                  - "cloudformation:CreateStack"
                   - "cloudformation:DeleteStack"
                   - "cloudformation:UpdateStack"
                   - "cloudformation:CreateChangeSet"
