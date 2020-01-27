@@ -137,7 +137,7 @@ Resources:
                 Capabilities: CAPABILITY_NAMED_IAM
                 StackName: !Sub ${AppPrefix}-${DeplEnv}-stack
                 TemplateConfiguration: !Sub BuildArtifact::${AppPrefix}-${DeplEnv}--deploy-config.json
-                TemplatePath: !Sub BuildArtifact::${AppPrefix}-${DeplEnv}-packaged.yaml
+                TemplatePath: !Sub BuildArtifact::${AppPrefix}-packaged.yaml
               RunOrder: 1
         - Name: Build-Front-End
           Actions:
