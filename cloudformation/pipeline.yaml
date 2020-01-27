@@ -33,8 +33,8 @@ Parameters:
 Resources:
   CodeArtifactsBucket:
     Type: AWS::S3::Bucket
-    BucketName: !Sub ${AppPrefix}-${DeplEnv}-artifacts
-    Properties: {}
+    Properties:
+      BucketName: !Sub ${AppPrefix}-${DeplEnv}-artifacts
 
   CodeBuildCloudFormation:
     Type: AWS::CodeBuild::Project
