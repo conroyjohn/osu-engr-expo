@@ -100,7 +100,7 @@ Resources:
               Configuration:
                 Owner: !Ref GithubOwner
                 Repo: !Ref GithubRepo
-                Branch: master
+                Branch: dev
                 OAuthToken: !Ref GithubOAuthToken
               RunOrder: 1
         - Name: Build-CloudFormation
