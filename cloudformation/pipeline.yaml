@@ -75,7 +75,7 @@ Resources:
         Image: aws/codebuild/standard:2.0
         EnvironmentVariables:
           - Name: S3_Host_Bucket
-            Value: !Sub ${AppPrefix}-${DeplEnv}-spa
+            Value: !Sub ${AppPrefix}-${DeplEnv}-website
       Artifacts:
         Type: CODEPIPELINE
       TimeoutInMinutes: 15
