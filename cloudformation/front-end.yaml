@@ -38,3 +38,22 @@ Resources:
             Principal: "*" # wildcard, allow all requests
             Action: "s3:GetObject"
             Resource: !Join ["", ["arn:aws:s3:::", !Ref WebsiteBucket, /*]]
+
+  CloudFrontDistribution:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt WebsiteBucket.DomainName
+            Id: !Ref WebsiteBucket
+            S3OriginConfig:
+              OriginAccessIdentity: ""
+        DefaultRootObject: index.html
+        Enabled: true
+        DefaultCacheBehavior:
+          MinTTL: 86400
+          MaxTTL: 31536000
+          ForwardedValues:
+            QueryString: true
+          TargetOriginId: !Ref WebsiteBucket
+          ViewerProtocolPolicy: "redirect-to-https"
