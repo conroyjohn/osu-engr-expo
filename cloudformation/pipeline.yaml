@@ -193,4 +193,6 @@ Resources:
                   - "cloudformation:ValidateTemplate"
                   - "codebuild:StartBuild"
                   - "codebuild:BatchGetBuilds"
+                  - "iam:GetRole"
+                  - "iam:PassRole"
                 Resource: "*"
