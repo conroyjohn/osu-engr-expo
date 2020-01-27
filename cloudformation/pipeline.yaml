@@ -136,7 +136,7 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 Capabilities: CAPABILITY_NAMED_IAM
                 StackName: !Sub ${AppPrefix}-${DeplEnv}-stack
-                TemplateConfiguration: !Sub BuildArtifact::${AppPrefix}-${DeplEnv}--deploy-config.json
+                TemplateConfiguration: !Sub BuildArtifacts::${AppPrefix}-${DeplEnv}-config.json
                 TemplatePath: !Sub BuildArtifacts::${AppPrefix}-packaged.yaml
               RunOrder: 1
         - Name: Build-Front-End
