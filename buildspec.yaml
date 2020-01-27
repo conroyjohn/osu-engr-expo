@@ -20,7 +20,7 @@ phases:
       - echo Build started on `date`
       - cp $PWD/cloudformation/*.yaml $PWD/build
       - cp $PWD/cloudformation/*config.json $PWD/build
-      - cd $BUILD_DIR &&  aws cloudformation package --template osu-engr-expo.yaml --s3-bucket ${S3_ARTIFACT_BUCKET} --output-template-file osu-engr-expo-packaged.yaml  --force-upload
+      - cd $PWD/build &&  aws cloudformation package --template osu-engr-expo.yaml --s3-bucket ${S3_ARTIFACT_BUCKET} --output-template-file osu-engr-expo-packaged.yaml  --force-upload
     finally:
       - echo Packages created..
   post_build:
