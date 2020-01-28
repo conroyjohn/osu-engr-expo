@@ -18,8 +18,8 @@ phases:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
-      - ./build_helper.sh ${S3_ARTIFACT_BUCKET}
-      - cd /build && aws cloudformation package --template osu-engr-expo.yaml --s3-bucket $S3_ARTIFACT_BUCKET --output-template-file osu-engr-expo-packaged.yaml  --force-upload
+      - ./build_helper.sh
+      - cd $PWD/build && aws cloudformation package --template osu-engr-expo.yaml --s3-bucket ${S3_ARTIFACT_BUCKET} --output-template-file osu-engr-expo-packaged.yaml  --force-upload
     finally:
       - echo Packages created..
   post_build:
