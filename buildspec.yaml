@@ -18,7 +18,7 @@ phases:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
-      - ./build_helper.sh $S3_ARTIFACT_BUCKET
+      - ./build_helper.sh ${S3_ARTIFACT_BUCKET}
     finally:
       - echo Packages created..
   post_build:
