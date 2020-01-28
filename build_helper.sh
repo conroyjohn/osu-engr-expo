@@ -3,7 +3,7 @@
 LAMBDA_DIRS="hello-world"
 
 #define temporary variables
-S3_SCRATCH_BUCKET= $1
+S3_SCRATCH_BUCKET=$1
 BASEDIR=$PWD
 LAMBDASDIR=$PWD/lambdas
 BUILD_DIR=$PWD/build
