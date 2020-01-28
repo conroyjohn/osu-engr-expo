@@ -3,7 +3,6 @@
 LAMBDA_DIRS="hello-world"
 
 #define temporary variables
-S3_ARTIFACT_BUCKET=$1
 BASEDIR=$PWD
 LAMBDASDIR=$PWD/lambdas
 BUILD_DIR=$PWD/build
@@ -29,7 +28,5 @@ do
       pip install -r $BUILD_DIR/$module/requirements.txt -t $BUILD_DIR/$module
     fi
 done
-
-cd $BUILD_DIR && aws cloudformation package --template osu-engr-expo.yaml --s3-bucket $S3_ARTIFACT_BUCKET --output-template-file osu-engr-expo-packaged.yaml  --force-upload
 
 exit 0
