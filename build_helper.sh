@@ -30,6 +30,6 @@ do
     fi
 done
 
-cd $BUILD_DIR && aws cloudformation package --template osu-engr-expo.yaml --s3-bucket ${S3_ARTIFACT_BUCKET} --output-template-file osu-engr-expo-packaged.yaml  --force-upload
+cd $BUILD_DIR && aws cloudformation package --template osu-engr-expo.yaml --s3-bucket $S3_ARTIFACT_BUCKET --output-template-file osu-engr-expo-packaged.yaml  --force-upload
 
 exit 0
