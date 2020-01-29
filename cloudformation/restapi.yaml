@@ -49,7 +49,7 @@ Resources:
       FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "hello-world"]]
       Handler: lambda_function.handler
       MemorySize: 256
-      Role: !Ref LambdaServiceRole
+      Role: !GetAtt LambdaServiceRole.Arn
       Runtime: python3.7
       Timeout: 100
 
@@ -67,9 +67,9 @@ Resources:
         Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldLambda.Arn}/invocations"
       ResourceId: !Ref HelloWorldApiResource
       RestApiId: !Ref RestApi
-      DependsOn:
-        - HelloWorldLambda
-        - HelloWorldApiResource
+    DependsOn:
+      - HelloWorldLambda
+      - HelloWorldApiResource
 
   HelloWorldApiInvoke:
     Type: AWS::Lambda::Permission
