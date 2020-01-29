@@ -41,7 +41,7 @@ Resources:
   HelloWorldLambda:
     Type: AWS::Lambda::Function
     Properties:
-      Code: !Join ["-", [!Ref AppPrefix, "hello-world"]]
+      Code: hello-world
       Description: Lambda function that is triggered on POST /hello-world requests
       Environment:
         Variables:
