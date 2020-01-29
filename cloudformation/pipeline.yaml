@@ -20,6 +20,8 @@ Parameters:
   GithubRepo:
     Type: String
     Default: osu-engr-expo
+  GitBranch:
+    Type: String
   GithubOAuthToken:
     Type: String
     Description: "Github personal access token"
@@ -45,7 +47,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: buildspec.yaml
-      SourceVersion: !Sub ${DeplEnv}
+      SourceVersion: !Sub ${GitBranch}
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -68,7 +70,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: expo-front-end/buildspec-front-end.yaml
-      SourceVersion: dev
+      SourceVersion: !Sub ${GitBranch}
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -101,7 +103,7 @@ Resources:
               Configuration:
                 Owner: !Ref GithubOwner
                 Repo: !Ref GithubRepo
-                Branch: dev
+                Branch: !Sub ${GitBranch}
                 OAuthToken: !Ref GithubOAuthToken
               RunOrder: 1
         - Name: Build-CloudFormation
