@@ -14,63 +14,62 @@ Parameters:
       - prod
 
 Resources:
+  RestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      ApiKeySourceType: HEADER
+      Description: An API Gateway with a Lambda Integration
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      Name: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "rest-api"]]
 
-RestApi:
-  Type: AWS::ApiGateway::RestApi
-  Properties:
-    ApiKeySourceType: HEADER
-    Description: An API Gateway with a Lambda Integration
-    EndpointConfiguration:
-      Types:
-        - REGIONAL
-    Name: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "rest-api"]]
+  ApiGatewayModel:
+    Type: AWS::ApiGateway::Model
+    Properties:
+      ContentType: "application/json"
+      RestApiId: !Ref RestApi
+      Schema: {}
 
-ApiGatewayModel:
-  Type: AWS::ApiGateway::Model
-  Properties:
-    ContentType: "application/json"
-    RestApiId: !Ref RestApi
-    Schema: {}
+  HelloWorldApiResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt RestApi.RootResourceId
+      PathPart: "hello-world"
+      RestApiId: !Ref RestApi
 
-HelloWorldApiResource:
-  Type: AWS::ApiGateway::Resource
-  Properties:
-    ParentId: !GetAtt RestApi.RootResourceId
-    PathPart: "hello-world"
-    RestApiId: !Ref ApiGatewayRestApi
+  HelloWorldLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code: !Join ["-", [!Ref AppPrefix, "hello-world"]]
+      Description: Lambda function that is triggered on POST /hello-world requests
+      Environment:
+        Variables:
+          DEPL_ENV: !Ref DeplEnv
+      FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "hello-world"]]
+      Handler: lambda_function.handler
+      MemorySize: 256
+      Role: !Ref LambdaServiceRole
+      Runtime: python3.7
+      Timeout: 100
 
-HelloWorldLambda:
-  Type: AWS::Lambda::Function
-  Properties:
-    Code: !Join ["-", [!Ref AppPrefix, "hello-world"]]
-    Description: Lambda function that is triggered on POST /hello-world requests
-    Environment:
-      Variables:
-        DEPL_ENV: !Ref DeplEnv
-    FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "hello-world"]]
-    Handler: lambda_function.handler
-    MemorySize: 256
-    Role: !Ref LambdaServiceRole
-    Runtime: python3.7
-    Timeout: 100
-
-HelloWorldApiMethod:
-  Type: AWS::ApiGateway::Method
-  Properties:
-    ApiKeyRequired: false
-    AuthorizationType: NONE
-    HttpMethod: POST
-    Integration:
-      ConnectionType: INTERNET
-      IntegrationHttpMethod: POST
-      TimeoutInMillis: 29000
-      Type: AWS_PROXY
-      Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldLambda.Arn}/invocations"
-    ResourceId: !Ref HelloWorldApiResource
-    RestApiId: !Ref RestApi
-    DependsOn:
-      - HelloWorldLambda
-      - HelloWorldApiResource
+  HelloWorldApiMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: POST
+      Integration:
+        ConnectionType: INTERNET
+        IntegrationHttpMethod: POST
+        TimeoutInMillis: 29000
+        Type: AWS_PROXY
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldLambda.Arn}/invocations"
+      ResourceId: !Ref HelloWorldApiResource
+      RestApiId: !Ref RestApi
+      DependsOn:
+        - HelloWorldLambda
+        - HelloWorldApiResource
 
   HelloWorldApiInvoke:
     Type: AWS::Lambda::Permission
@@ -80,33 +79,33 @@ HelloWorldApiMethod:
       Principal: "apigateway.amazonaws.com"
       SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/hello-world"
 
-ApiGatewayDeployment:
-  Type: AWS::ApiGateway::Deployment
-  DependsOn:
-    - HelloWorldApiMethod
-  Properties:
-    Description: Rest API deployment
-    RestApiId: !Ref RestApi
+  RestApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - HelloWorldApiMethod
+    Properties:
+      Description: Rest API deployment
+      RestApiId: !Ref RestApi
 
-ApiGatewayStage:
-  Type: AWS::ApiGateway::Stage
-  Properties:
-    DeploymentId: !Ref RestApiDeployment
-    Description: Rest API stage v0
-    RestApiId: !Ref RestApi
-    StageName: "v0"
-  DependsOn:
-    - RestApiDeployment
+  ApiGatewayStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId: !Ref RestApiDeployment
+      Description: Rest API stage v0
+      RestApiId: !Ref RestApi
+      StageName: "v0"
+    DependsOn:
+      - RestApiDeployment
 
-LambdaServiceRole:
-  Type: AWS::IAM::Role
-  Properties:
-    AssumeRolePolicyDocument:
-      Version: "2012-10-17"
-      Statement:
-        - Effect: "Allow"
-          Principal:
-            Service:
-              - "lambda.amazonaws.com"
-          Action:
-            - "sts:AssumeRole"
+  LambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
