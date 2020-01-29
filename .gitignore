@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+
+scratch/*
+
 # dependencies
 expo-front-end/node_modules
 expo-front-end/*.pnp
