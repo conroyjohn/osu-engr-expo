@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { StylesProvider, ThemeProvider } from "@material-ui/styles";
+import { CssBaseline, createMuiTheme } from "@material-ui/core";
+import styled, {
+  ThemeProvider as StyledThemeProvider
+} from "styled-components";
 
-function App() {
+import Routes from "./Routes.js";
+
+// explicitly create the theme, this is so that
+// it can be shared with styled-components also
+const theme = createMuiTheme({
+  //override theme defaults
+  palette: { primary: { main: "#d73f09" } }
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // Tell material-ui to inject its styles first so that
+    // styled-components can override/extend the styles, else
+    // material-ui will override
+    <StylesProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        {/* pass theme to styled-components so it can be used
+      (see StyledPaper above) */}
+        <StyledThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes />
+        </StyledThemeProvider>
+      </ThemeProvider>
+    </StylesProvider>
   );
-}
+};
 
 export default App;
