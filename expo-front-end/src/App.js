@@ -6,6 +6,7 @@ import styled, {
 } from "styled-components";
 
 import Routes from "./Routes.js";
+import Nav from "./components/Nav.js";
 
 // explicitly create the theme, this is so that
 // it can be shared with styled-components also
@@ -25,6 +26,7 @@ const App = () => {
       (see StyledPaper above) */}
         <StyledThemeProvider theme={theme}>
           <CssBaseline />
+          <Nav />
           <Routes />
         </StyledThemeProvider>
       </ThemeProvider>
