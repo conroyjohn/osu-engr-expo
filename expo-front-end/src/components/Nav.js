@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+import SwipeSideDrawer from "./SwipeSideDrawer.js";
+
 //add styles to an html element
 const Root = styled.div`
   flex-grow: 1;
@@ -26,9 +28,7 @@ const Nav = () => {
     <Root>
       <StyledAppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
+          <SwipeSideDrawer routes={["Projects", "Map", "AR", "Upload"]} />
           <StyledTypography variant="h6">Engineering Expo</StyledTypography>
           <Button color="inherit">Login</Button>
         </Toolbar>
