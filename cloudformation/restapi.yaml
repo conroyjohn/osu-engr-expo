@@ -65,56 +65,18 @@ Resources:
     DependsOn:
       - HelloWorldApiResource
 
-  S3DocsLambda:
-    Type: AWS::Lambda::Function
+  S3DocsLambdaStack:
+    Type: AWS::CloudFormation::Stack
     Properties:
-      #set to name of directory for the lambda function in lambdas directory
-      Code: s3-docs
-      Description: Lambda function that is triggered on GET /s3-docs/* requests
-      #pass environment variables to lambda function
-      Environment:
-        Variables:
-          #KEY: VALUE
-          DEPL_ENV: !Ref DeplEnv
-      #name of function to be created in AWS. Only change "hello-world" to the name of new function
-      FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "s3-docs"]]
-      #name of the 'main' function inside lambda_function
-      Handler: lambda_function.handler
-      MemorySize: 256
-      #role which gives privleges to access other AWS resource
-      Role: !GetAtt S3DocsLambdaServiceRole.Arn
-      #language for lambda function
-      Runtime: python3.7
-      Timeout: 100
-
-  S3DocsApiMethod:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      ApiKeyRequired: false
-      AuthorizationType: NONE
-      HttpMethod: GET
-      Integration:
-        ConnectionType: INTERNET
-        IntegrationHttpMethod: POST
-        TimeoutInMillis: 29000
-        Type: AWS_PROXY
-        #Only need to change the below to be specific to your created lambda function
-        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${S3DocsLambda.Arn}/invocations"
-      ResourceId: !Ref S3DocsResource
-      RestApiId: !Ref RestApi
+      TemplateURL: s3-docs-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref S3DocsResource
+        RestApiId: !Ref RestApi
     DependsOn:
-      - S3DocsLambda
       - S3DocsResource
-
-  #Create invoke permissions for API Gateway for each new lambda
-  S3DocsApiInvoke:
-    #Only need to change the things that mention hello-world.
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !GetAtt S3DocsLambda.Arn
-      Principal: "apigateway.amazonaws.com"
-      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/GET/s3-docs"
 
   #Don't need to change or create for each lambda
   RestApiDeployment:
@@ -133,29 +95,3 @@ Resources:
       StageName: "v0"
     DependsOn:
       - RestApiDeployment
-
-  S3DocsLambdaServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Action:
-              - "sts:AssumeRole"
-            Effect: "Allow"
-            Principal:
-              Service:
-                - "lambda.amazonaws.com"
-      Policies:
-        - PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Action:
-                  - "s3:*"
-                Effect: "Allow"
-                Resource: "*"
-          PolicyName:
-            !Join [
-              "-",
-              [!Ref AppPrefix, !Ref DeplEnv, "lambda-service-s3-docs"],
-            ]
