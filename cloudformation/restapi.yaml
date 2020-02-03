@@ -152,7 +152,7 @@ Resources:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
-      FunctionName: !GetAtt S3DocsApiMethod.Arn
+      FunctionName: !GetAtt S3DocsLambda.Arn
       Principal: "apigateway.amazonaws.com"
       SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/s3-docs"
 
