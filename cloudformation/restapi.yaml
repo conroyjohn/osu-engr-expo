@@ -146,6 +146,16 @@ Resources:
       Principal: "apigateway.amazonaws.com"
       SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/hello-world"
 
+  #Create invoke permissions for API Gateway for each new lambda
+  S3DocsApiInvoke:
+    #Only need to change the things that mention hello-world.
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt S3DocsApiMethod.Arn
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/s3-docs"
+
   #Don't need to change or create for each lambda
   RestApiDeployment:
     Type: AWS::ApiGateway::Deployment
@@ -188,7 +198,6 @@ Resources:
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Resource: "*"
             Action: "s3:*"
