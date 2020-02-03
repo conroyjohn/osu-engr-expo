@@ -84,6 +84,9 @@ Resources:
     Properties:
       Description: Rest API deployment
       RestApiId: !Ref RestApi
+    DependsOn:
+      - HelloWorldLambdaStack
+      - S3DocsLambdaStack
 
   #Don't need to change or create for each lambda
   ApiGatewayStage:
