@@ -14,6 +14,7 @@ Parameters:
       - prod
 
 Resources:
+  #Don't need to change or create for each lambda
   RestApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
@@ -24,6 +25,7 @@ Resources:
           - REGIONAL
       Name: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "rest-api"]]
 
+  #Don't need to change or create for each lambda
   ApiGatewayModel:
     Type: AWS::ApiGateway::Model
     Properties:
@@ -31,28 +33,71 @@ Resources:
       RestApiId: !Ref RestApi
       Schema: {}
 
+  #These are the API routes, create as needed
   HelloWorldApiResource:
     Type: AWS::ApiGateway::Resource
     Properties:
+      #parent resource, this one is root
       ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
       PathPart: "hello-world"
       RestApiId: !Ref RestApi
 
+  S3DocsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "s3-docs"
+      RestApiId: !Ref RestApi
+
+  #Create each lambda here
   HelloWorldLambda:
     Type: AWS::Lambda::Function
     Properties:
+      #set to name of directory for the lambda function in lambdas directory
       Code: hello-world
       Description: Lambda function that is triggered on POST /hello-world requests
+      #pass environment variables to lambda function
       Environment:
         Variables:
+          #KEY: VALUE
           DEPL_ENV: !Ref DeplEnv
+      #name of function to be created in AWS. Only change "hello-world" to the name of new function
       FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "hello-world"]]
+      #name of the 'main' function inside lambda_function
       Handler: lambda_function.handler
       MemorySize: 256
+      #role which gives privleges to access other AWS resource
       Role: !GetAtt LambdaServiceRole.Arn
+      #language for lambda function
       Runtime: python3.7
       Timeout: 100
 
+  S3DocsLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      #set to name of directory for the lambda function in lambdas directory
+      Code: s3-docs
+      Description: Lambda function that is triggered on GET /s3-docs/* requests
+      #pass environment variables to lambda function
+      Environment:
+        Variables:
+          #KEY: VALUE
+          DEPL_ENV: !Ref DeplEnv
+      #name of function to be created in AWS. Only change "hello-world" to the name of new function
+      FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "s3-docs"]]
+      #name of the 'main' function inside lambda_function
+      Handler: lambda_function.handler
+      MemorySize: 256
+      #role which gives privleges to access other AWS resource
+      Role: !GetAtt S3DocsLambdaServiceRole.Arn
+      #language for lambda function
+      Runtime: python3.7
+      Timeout: 100
+
+  #Create endpoint for each new lambda
   HelloWorldApiMethod:
     Type: AWS::ApiGateway::Method
     Properties:
@@ -64,6 +109,7 @@ Resources:
         IntegrationHttpMethod: POST
         TimeoutInMillis: 29000
         Type: AWS_PROXY
+        #Only need to change the below to be specific to your created lambda function
         Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldLambda.Arn}/invocations"
       ResourceId: !Ref HelloWorldApiResource
       RestApiId: !Ref RestApi
@@ -71,7 +117,28 @@ Resources:
       - HelloWorldLambda
       - HelloWorldApiResource
 
+  S3DocsApiMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        ConnectionType: INTERNET
+        IntegrationHttpMethod: POST
+        TimeoutInMillis: 29000
+        Type: AWS_PROXY
+        #Only need to change the below to be specific to your created lambda function
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${S3DocsLambda.Arn}/invocations"
+      ResourceId: !Ref S3DocsResource
+      RestApiId: !Ref RestApi
+    DependsOn:
+      - S3DocsLambda
+      - S3DocsResource
+
+  #Create invoke permissions for API Gateway for each new lambda
   HelloWorldApiInvoke:
+    #Only need to change the things that mention hello-world.
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
@@ -79,6 +146,17 @@ Resources:
       Principal: "apigateway.amazonaws.com"
       SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/hello-world"
 
+  #Create invoke permissions for API Gateway for each new lambda
+  S3DocsApiInvoke:
+    #Only need to change the things that mention hello-world.
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt S3DocsApiMethod.Arn
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/s3-docs"
+
+  #Don't need to change or create for each lambda
   RestApiDeployment:
     Type: AWS::ApiGateway::Deployment
     DependsOn:
@@ -87,6 +165,7 @@ Resources:
       Description: Rest API deployment
       RestApiId: !Ref RestApi
 
+  #Don't need to change or create for each lambda
   ApiGatewayStage:
     Type: AWS::ApiGateway::Stage
     Properties:
@@ -97,7 +176,23 @@ Resources:
     DependsOn:
       - RestApiDeployment
 
+  #Role for a lambda, can reuse or create new ones. Should make a new role for lambdas to make permissions as restrictive as possible
   LambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          #change permissions or create new role based on the need of the lambda function you're creating
+          #this role does not give any permissions
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  S3DocsLambdaServiceRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -107,5 +202,5 @@ Resources:
             Principal:
               Service:
                 - "lambda.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
+            Resource: "*"
+            Action: "s3:*"
