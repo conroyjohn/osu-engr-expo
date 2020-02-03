@@ -154,7 +154,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt S3DocsLambda.Arn
       Principal: "apigateway.amazonaws.com"
-      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/s3-docs"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/GET/s3-docs"
 
   #Don't need to change or create for each lambda
   RestApiDeployment:
