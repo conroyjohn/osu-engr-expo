@@ -125,7 +125,7 @@ Resources:
       HttpMethod: GET
       Integration:
         ConnectionType: INTERNET
-        IntegrationHttpMethod: GET
+        IntegrationHttpMethod: POST
         TimeoutInMillis: 29000
         Type: AWS_PROXY
         #Only need to change the below to be specific to your created lambda function
