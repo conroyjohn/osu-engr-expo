@@ -22,3 +22,12 @@ Resources:
       Parameters:
         AppPrefix: !Ref AppPrefix
         DeplEnv: !Ref DeplEnv
+
+  RestApiStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: restapi.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
