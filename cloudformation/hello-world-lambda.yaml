@@ -15,9 +15,11 @@ Parameters:
 
   ResourceId:
     Description: ID of Resource to attach http method to
+    Type: String
 
   RestApiId:
     Description: ID of Rest Api
+    Type: String
 
 Resources:
   #Create each lambda here
