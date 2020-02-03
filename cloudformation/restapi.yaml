@@ -203,4 +203,3 @@ Resources:
               Service:
                 - "lambda.amazonaws.com"
             Action: "s3:*"
-            Resource: "*"
