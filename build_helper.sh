@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LAMBDA_DIRS="hello-world"
+LAMBDA_DIRS="hello-world s3-docs"
 
 #define temporary variables
 BASEDIR=$PWD
