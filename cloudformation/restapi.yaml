@@ -43,6 +43,15 @@ Resources:
       PathPart: "hello-world"
       RestApiId: !Ref RestApi
 
+  S3DocsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "s3-docs"
+      RestApiId: !Ref RestApi
+
   #Create each lambda here
   HelloWorldLambda:
     Type: AWS::Lambda::Function
@@ -66,6 +75,28 @@ Resources:
       Runtime: python3.7
       Timeout: 100
 
+  S3DocsLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      #set to name of directory for the lambda function in lambdas directory
+      Code: s3-docs
+      Description: Lambda function that is triggered on GET /s3-docs/* requests
+      #pass environment variables to lambda function
+      Environment:
+        Variables:
+          #KEY: VALUE
+          DEPL_ENV: !Ref DeplEnv
+      #name of function to be created in AWS. Only change "hello-world" to the name of new function
+      FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "s3-docs"]]
+      #name of the 'main' function inside lambda_function
+      Handler: lambda_function.handler
+      MemorySize: 256
+      #role which gives privleges to access other AWS resource
+      Role: !GetAtt S3DocsLambdaServiceRole.Arn
+      #language for lambda function
+      Runtime: python3.7
+      Timeout: 100
+
   #Create endpoint for each new lambda
   HelloWorldApiMethod:
     Type: AWS::ApiGateway::Method
@@ -85,6 +116,25 @@ Resources:
     DependsOn:
       - HelloWorldLambda
       - HelloWorldApiResource
+
+  S3DocsApiMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        ConnectionType: INTERNET
+        IntegrationHttpMethod: GET
+        TimeoutInMillis: 29000
+        Type: AWS_PROXY
+        #Only need to change the below to be specific to your created lambda function
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${S3DocsLambda.Arn}/invocations"
+      ResourceId: !Ref S3DocsResource
+      RestApiId: !Ref RestApi
+    DependsOn:
+      - S3DocsLambda
+      - S3DocsResource
 
   #Create invoke permissions for API Gateway for each new lambda
   HelloWorldApiInvoke:
@@ -131,3 +181,14 @@ Resources:
                 - "lambda.amazonaws.com"
             Action:
               - "sts:AssumeRole"
+
+  S3DocsLambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Resource: "*"
+            Action: "s3:*"
