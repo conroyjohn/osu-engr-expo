@@ -201,6 +201,5 @@ Resources:
           - Effect: "Allow"
             Principal:
               Service:
-                - "lambda.amazonaws.com"
-            Resource: "*"
+                - "s3.amazonaws.com"
             Action: "s3:*"
