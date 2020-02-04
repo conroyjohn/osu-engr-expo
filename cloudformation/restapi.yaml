@@ -52,6 +52,15 @@ Resources:
       PathPart: "s3-docs"
       RestApiId: !Ref RestApi
 
+  DDBInteractionResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "ddb-interaction"
+      RestApiId: !Ref RestApi
+
   HelloWorldLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -77,6 +86,19 @@ Resources:
         RestApiId: !Ref RestApi
     DependsOn:
       - S3DocsResource
+
+  DDBInteractionLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ddb-interaction-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref DDBInteractionResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - DDBInteractionResource
 
   #Don't need to change or create for each lambda
   RestApiDeployment:
