@@ -50,7 +50,7 @@ Resources:
         - ALLOW_CUSTOM_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
       GenerateSecret: false
-      RefreshTokenValidity: "3650"
+      RefreshTokenValidity: 30
       UserPoolId: !Ref UserPool
       PreventUserExistenceErrors: "ENABLED"
 
