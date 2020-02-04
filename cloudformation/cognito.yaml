@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  AppPrefix:
+    Description: Prefix for the application
+    Type: String
+    Default: osu-engr-expo
+
+  DeplEnv:
+    Description: Deployment environment
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "user-pool"]]
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
+      AutoVerifiedAttributes:
+        - email
+      UsernameAttributes:
+        - email
+      EmailConfiguration:
+        EmailSendingAccount: COGNITO_DEFAULT
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
+          TemporaryPasswordValidityDays: 14
+      Schema:
+        - AttributeDataType: String
+          Mutable: false
+          Name: email
+          Required: true
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName:
+        !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "user-pool-client"]]
+      ExplicitAuthFlows:
+        - ALLOW_ADMIN_USER_PASSWORD_AUTH
+        - ALLOW_CUSTOM_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+      GenerateSecret: false
+      RefreshTokenValidity: "3650"
+      UserPoolId: !Ref UserPool
+      PreventUserExistenceErrors: "ENABLED"
+
+Outputs:
+  CognitoUserPoolId:
+    Description: The Pool ID of the Cognito User Pool
+    Value: !Ref UserPool
+  CognitoUserPoolClientId:
+    Description: The Client ID User Pool App
+    Value: !Ref UserPoolClient
