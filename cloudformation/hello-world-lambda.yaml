@@ -50,7 +50,7 @@ Resources:
     Type: AWS::ApiGateway::Method
     Properties:
       ApiKeyRequired: false
-      AuthorizationType: NONE
+      AuthorizationType: AWS_IAM
       HttpMethod: POST
       Integration:
         ConnectionType: INTERNET
