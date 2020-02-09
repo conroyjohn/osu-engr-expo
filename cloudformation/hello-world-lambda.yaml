@@ -51,9 +51,11 @@ Resources:
     Properties:
       ApiKeyRequired: false
       AuthorizationType: AWS_IAM
+      #change http method based on need
       HttpMethod: POST
       Integration:
         ConnectionType: INTERNET
+        #dont change integration http method ever
         IntegrationHttpMethod: POST
         TimeoutInMillis: 29000
         Type: AWS_PROXY
@@ -63,6 +65,35 @@ Resources:
       RestApiId: !Ref RestApiId
     DependsOn:
       - HelloWorldLambda
+
+  #dont need to change this at all
+  OptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: None
+      RestApiId: !Ref RestApiId
+      ResourceId: !Ref ResourceId
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'*'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+            ResponseTemplates:
+              application/json: ""
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+        Type: "MOCK"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: "Empty"
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: false
+            method.response.header.Access-Control-Allow-Methods: false
+            method.response.header.Access-Control-Allow-Origin: false
 
   #Create invoke permissions for API Gateway for each new lambda
   HelloWorldApiInvoke:
