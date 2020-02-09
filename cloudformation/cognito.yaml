@@ -64,7 +64,7 @@ Resources:
       # Link to our User Pool
       CognitoIdentityProviders:
         - ClientId: !Ref UserPoolClient
-          ProviderName: !GetAtt UserPoolClient.ProviderName
+          ProviderName: !GetAtt UserPool.ProviderName
 
   # IAM roles
   IdentityPoolRoles:
