@@ -1,5 +1,6 @@
 import React from "react";
 import REACTDOM from "react-dom";
+import { API } from "aws-amplify";
 import '../App.css';
 
 class MyForm extends React.Component {
@@ -96,17 +97,17 @@ class MyForm extends React.Component {
         'links':inputLinks
     }
 
-    //wasn't working for some reason
-    // this.setState({
-    //     'name':event.target.projectName.value.toString(),
-    //     'description':event.target.projectDescription.value,
-    //     'picture':event.target.projectPicture.files[0],
-    //     'team':team,
-    //     'school':event.target.projectSchool.value,
-    //     'tech':event.target.projectTech.value,
-    //     'college':event.target.projectCollege.value,
-    //     'links':inputLinks
-    // })
+
+    let myInit = {
+        body: postData
+    }
+    API.post("expo", "/create-new-project", myInit).then(response => {
+        console.log("Success!!")
+    }).catch(error => {
+        console.log(error)
+    });
+
+
     console.log("Data was submitted!!")
     console.log(postData)
 
