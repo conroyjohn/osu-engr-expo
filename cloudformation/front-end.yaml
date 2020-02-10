@@ -57,3 +57,7 @@ Resources:
             QueryString: true
           TargetOriginId: !Ref WebsiteBucket
           ViewerProtocolPolicy: "redirect-to-https"
+        CustomErrorResponse:
+          ErrorCode: 404
+          ResponseCode: 200
+          ResponsePagePath: "index.html"
