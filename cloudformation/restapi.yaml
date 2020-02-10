@@ -43,22 +43,22 @@ Resources:
       PathPart: "hello-world"
       RestApiId: !Ref RestApi
 
-  S3DocsResource:
+  GetAllProjectsResource:
     Type: AWS::ApiGateway::Resource
     Properties:
       #parent resource, this one is root
       ParentId: !GetAtt RestApi.RootResourceId
       #name of the route
-      PathPart: "s3-docs"
+      PathPart: "get-all-projects"
       RestApiId: !Ref RestApi
 
-  DDBInteractionResource:
+  CreateNewProjectResource:
     Type: AWS::ApiGateway::Resource
     Properties:
       #parent resource, this one is root
       ParentId: !GetAtt RestApi.RootResourceId
       #name of the route
-      PathPart: "ddb-interaction"
+      PathPart: "create-new-project"
       RestApiId: !Ref RestApi
 
   HelloWorldLambdaStack:
@@ -74,31 +74,31 @@ Resources:
     DependsOn:
       - HelloWorldApiResource
 
-  S3DocsLambdaStack:
+  GetAllProjectsLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: s3-docs-lambda.yaml
+      TemplateURL: get-all-projects-lambda.yaml
       TimeoutInMinutes: "60"
       Parameters:
         AppPrefix: !Ref AppPrefix
         DeplEnv: !Ref DeplEnv
-        ResourceId: !Ref S3DocsResource
+        ResourceId: !Ref GetAllProjectsResource
         RestApiId: !Ref RestApi
     DependsOn:
-      - S3DocsResource
+      - GetAllProjectsResource
 
-  DDBInteractionLambdaStack:
+  CreateNewProjectLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ddb-interaction-lambda.yaml
+      TemplateURL: create-new-project-lambda.yaml
       TimeoutInMinutes: "60"
       Parameters:
         AppPrefix: !Ref AppPrefix
         DeplEnv: !Ref DeplEnv
-        ResourceId: !Ref DDBInteractionResource
+        ResourceId: !Ref CreateNewProjectResource
         RestApiId: !Ref RestApi
     DependsOn:
-      - DDBInteractionResource
+      - CreateNewProjectResource
 
   #Don't need to change or create for each lambda
   RestApiDeployment:
@@ -108,7 +108,8 @@ Resources:
       RestApiId: !Ref RestApi
     DependsOn:
       - HelloWorldLambdaStack
-      - S3DocsLambdaStack
+      - GetAllProjectsLambdaStack
+      - CreateNewProjectLambdaStack
 
   #Don't need to change or create for each lambda
   ApiGatewayStage:

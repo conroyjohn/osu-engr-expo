@@ -1,8 +1,11 @@
 from utils import awsHelper as awsUtils
 
+
 def handler(event, context):
-    s3 = awsUtils.connect_s3()
-    sample_text = awsUtils.get_s3_content_as_string(s3,"osu-capstone-beta","sampleFile.txt")
+
+    ddb = awsUtils.connect_ddb()
+    project_table=ddb.Table('osu-expo-projects')
+    table_data = project_table.scan()
     ret = {
         "statusCode" : "200" ,
         "headers" : {
@@ -12,5 +15,5 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": sample_text}
+        "body": table_data["Items"]}
     return ret

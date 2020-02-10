@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LAMBDA_DIRS="hello-world s3-docs ddb-interaction"
+LAMBDA_DIRS="hello-world get-all-projects create-new-project"
 
 #define temporary variables
 BASEDIR=$PWD
