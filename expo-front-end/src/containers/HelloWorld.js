@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { API } from "aws-amplify";
 
 const HelloWorld = () => {
-  const [text, setText] = useState("Before the call");
+  const [text, setText] = useState(
+    "Working to test an endpoint with AWS_IAM authorization!"
+  );
 
   useEffect(() => {
     onLoad();
