@@ -98,23 +98,16 @@ class MyForm extends React.Component {
     }
 
 
-    let myInit = {
-        body: postData
-    }
-    API.post("expo", "/create-new-project", myInit).then(response => {
-        console.log("Success!!")
-    }).catch(error => {
-        console.log(error)
+
+    fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-project', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)
+    }).then((response) =>
+    {
+        alert("Thanks for submitting a project!")
     });
 
-
-    console.log("Data was submitted!!")
-    console.log(postData)
-
-    // fetch('/api/form-submit-url', {
-    //   method: 'POST',
-    //   body: data,
-    // });
   }
 
   render() {
