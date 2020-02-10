@@ -1,8 +1,8 @@
-import boto3
-import json
+from utils import awsHelper as awsUtils
 
 def handler(event, context):
-    body = "Hello from API Gateway!"
+    ddb = awsUtils.connect_ddb()
+    content = "There are " + str(len(list(ddb.tables.all()))) + " tables in the ddb resource."
     ret = {
         "statusCode" : "200" ,
         "headers" : {
@@ -12,5 +12,5 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps(body)}
+        "body": content}
     return ret

@@ -23,6 +23,15 @@ Resources:
         AppPrefix: !Ref AppPrefix
         DeplEnv: !Ref DeplEnv
 
+  CognitoStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: cognito.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+
   RestApiStack:
     Type: AWS::CloudFormation::Stack
     Properties:

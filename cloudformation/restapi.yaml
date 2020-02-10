@@ -14,6 +14,7 @@ Parameters:
       - prod
 
 Resources:
+  #Don't need to change or create for each lambda
   RestApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
@@ -24,6 +25,7 @@ Resources:
           - REGIONAL
       Name: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "rest-api"]]
 
+  #Don't need to change or create for each lambda
   ApiGatewayModel:
     Type: AWS::ApiGateway::Model
     Properties:
@@ -31,62 +33,84 @@ Resources:
       RestApiId: !Ref RestApi
       Schema: {}
 
+  #These are the API routes, create as needed
   HelloWorldApiResource:
     Type: AWS::ApiGateway::Resource
     Properties:
+      #parent resource, this one is root
       ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
       PathPart: "hello-world"
       RestApiId: !Ref RestApi
 
-  HelloWorldLambda:
-    Type: AWS::Lambda::Function
+  S3DocsResource:
+    Type: AWS::ApiGateway::Resource
     Properties:
-      Code: hello-world
-      Description: Lambda function that is triggered on POST /hello-world requests
-      Environment:
-        Variables:
-          DEPL_ENV: !Ref DeplEnv
-      FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "hello-world"]]
-      Handler: lambda_function.handler
-      MemorySize: 256
-      Role: !GetAtt LambdaServiceRole.Arn
-      Runtime: python3.7
-      Timeout: 100
-
-  HelloWorldApiMethod:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      ApiKeyRequired: false
-      AuthorizationType: NONE
-      HttpMethod: POST
-      Integration:
-        ConnectionType: INTERNET
-        IntegrationHttpMethod: POST
-        TimeoutInMillis: 29000
-        Type: AWS_PROXY
-        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldLambda.Arn}/invocations"
-      ResourceId: !Ref HelloWorldApiResource
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "s3-docs"
       RestApiId: !Ref RestApi
+
+  DDBInteractionResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "ddb-interaction"
+      RestApiId: !Ref RestApi
+
+  HelloWorldLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: hello-world-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref HelloWorldApiResource
+        RestApiId: !Ref RestApi
     DependsOn:
-      - HelloWorldLambda
       - HelloWorldApiResource
 
-  HelloWorldApiInvoke:
-    Type: AWS::Lambda::Permission
+  S3DocsLambdaStack:
+    Type: AWS::CloudFormation::Stack
     Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !GetAtt HelloWorldLambda.Arn
-      Principal: "apigateway.amazonaws.com"
-      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/POST/hello-world"
+      TemplateURL: s3-docs-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref S3DocsResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - S3DocsResource
 
+  DDBInteractionLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ddb-interaction-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref DDBInteractionResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - DDBInteractionResource
+
+  #Don't need to change or create for each lambda
   RestApiDeployment:
     Type: AWS::ApiGateway::Deployment
-    DependsOn:
-      - HelloWorldApiMethod
     Properties:
       Description: Rest API deployment
       RestApiId: !Ref RestApi
+    DependsOn:
+      - HelloWorldLambdaStack
+      - S3DocsLambdaStack
 
+  #Don't need to change or create for each lambda
   ApiGatewayStage:
     Type: AWS::ApiGateway::Stage
     Properties:
@@ -96,16 +120,3 @@ Resources:
       StageName: "v0"
     DependsOn:
       - RestApiDeployment
-
-  LambdaServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Principal:
-              Service:
-                - "lambda.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
