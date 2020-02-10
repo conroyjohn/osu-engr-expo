@@ -34,7 +34,8 @@ Resources:
           #KEY: VALUE
           DEPL_ENV: !Ref DeplEnv
       #name of function to be created in AWS. Only change "hello-world" to the name of new function
-      FunctionName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "get-all-projects"]]
+      FunctionName:
+        !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "get-all-projects"]]
       #name of the 'main' function inside lambda_function
       Handler: lambda_function.handler
       MemorySize: 256
@@ -61,6 +62,35 @@ Resources:
       RestApiId: !Ref RestApiId
     DependsOn:
       - GetAllProjectsLambda
+
+  #dont need to change this at all
+  OptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: None
+      RestApiId: !Ref RestApiId
+      ResourceId: !Ref ResourceId
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'*'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+            ResponseTemplates:
+              application/json: ""
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+        Type: "MOCK"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: "Empty"
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: false
+            method.response.header.Access-Control-Allow-Methods: false
+            method.response.header.Access-Control-Allow-Origin: false
 
   #Create invoke permissions for API Gateway for each new lambda
   GetAllProjectsApiInvoke:
