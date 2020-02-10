@@ -85,19 +85,31 @@ class MyForm extends React.Component {
     let team = this.state.team
     let inputLinks = this.state.links
 
-    this.setState({
-        name:event.target.projectName.value,
-        description:event.target.projectDescription.value,
-        picture:event.target.projectPicture.files[0],
-        team:team,
-        school:event.target.projectSchool.value,
-        tech:event.target.projectTech.value,
-        college:event.target.projectCollege.value,
-        links:inputLinks
-    })
+    let postData = {
+        'name':event.target.projectName.value.toString(),
+        'description':event.target.projectDescription.value.toString(),
+        'picture':event.target.projectPicture.files[0],
+        'team':team,
+        'school':event.target.projectSchool.value.toString(),
+        'tech':event.target.projectTech.value.toString(),
+        'college':event.target.projectCollege.value.toString(),
+        'links':inputLinks
+    }
+
+    //wasn't working for some reason
+    // this.setState({
+    //     'name':event.target.projectName.value.toString(),
+    //     'description':event.target.projectDescription.value,
+    //     'picture':event.target.projectPicture.files[0],
+    //     'team':team,
+    //     'school':event.target.projectSchool.value,
+    //     'tech':event.target.projectTech.value,
+    //     'college':event.target.projectCollege.value,
+    //     'links':inputLinks
+    // })
     console.log("Data was submitted!!")
-    console.log(this.state)
-    
+    console.log(postData)
+
     // fetch('/api/form-submit-url', {
     //   method: 'POST',
     //   body: data,

@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import { Link } from "react-router-dom";
 
 import SwipeSideDrawer from "./SwipeSideDrawer.js";
 
@@ -23,14 +24,35 @@ const StyledTypography = styled(Typography)`
   flex-grow: 1;
 `;
 
-const Nav = () => {
+const NavLinks = props => {
+  return props.isAuthenticated ? (
+    <Button color="inherit" onClick={props.handleLogout}>
+      Logout
+    </Button>
+  ) : (
+    <Button color="inherit" component={Link} to={"/LogIn"}>
+      Login
+    </Button>
+  );
+};
+
+const Nav = props => {
   return (
     <Root>
       <StyledAppBar position="static">
         <Toolbar>
-          <SwipeSideDrawer routes={["Projects", "Map", "AR", "Upload"]} />
+          <SwipeSideDrawer
+            routes={[
+              "Projects",
+              "Map",
+              "AR",
+              "Upload",
+              "HelloWorld",
+              "ChangePassword"
+            ]}
+          />
           <StyledTypography variant="h6">Engineering Expo</StyledTypography>
-          <Button color="inherit">Login</Button>
+          <NavLinks {...props} />
         </Toolbar>
       </StyledAppBar>
     </Root>
