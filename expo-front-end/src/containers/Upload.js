@@ -59,7 +59,7 @@ class MyForm extends React.Component {
   }
 
   handleLinkDescChange = idx => evt => {
-      console.log(evt.target)
+      // console.log(evt.target)
     const newLinks = this.state.links.map((link, sidx) => {
       if (idx !== sidx) return link;
       return { ...link, name: evt.target.value };
@@ -70,7 +70,7 @@ class MyForm extends React.Component {
 
 
   handleLinkWebsiteChange = idx => evt => {
-      console.log(evt.target)
+      // console.log(evt.target)
     const newLinks = this.state.links.map((link, sidx) => {
       if (idx !== sidx) return link;
       return { ...link, link: evt.target.value };
