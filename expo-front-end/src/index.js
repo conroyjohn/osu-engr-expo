@@ -18,7 +18,7 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: "hello-world",
+        name: "expo",
         endpoint: config.apiGateway.URL,
         region: config.apiGateway.REGION
       }
