@@ -16,6 +16,7 @@ class NULL_NAMESPACE:
 
 def handler(event, context):
 
+
     required_args_present = set(['name','description','picture','team','school','tech','college','links']).issubset(set(list(event.keys())))
 
     if (not required_args_present):
@@ -31,19 +32,21 @@ def handler(event, context):
         "body": json.dumps({"ERROR":"The required arguments name,description,picture,team,school,tech,college,links are not present"})}
 
     # all the args are present so can put in ddb
+    input_data = json.loads(event["body"])
     item={}
-    item['name'] = event['name']
-    item['description'] = event['description']
-    item['picture'] = event['picture']
-    item['team'] = event['team']
-    item['school'] = event['school']
-    item['tech'] = event['tech']
-    item['college'] = event['college']
-    item['links'] = event['links']
-    item['project_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+event['name']))
+    item['name'] = input_data['name']
+    item['description'] = input_data['description']
+    item['picture'] = input_data['picture']
+    item['team'] = input_data['team']
+    item['school'] = input_data['school']
+    item['tech'] = input_data['tech']
+    item['college'] = input_data['college']
+    item['links'] = input_data['links']
+    item['project_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data['name']))
 
     ddb = awsUtils.connect_ddb()
     response=ddb.Table('osu-expo-projects').put_item(Item=item)
+
 
     ret = {
         "statusCode" : "200" ,
@@ -54,6 +57,6 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps(response, defualt=default)}
+        "body": json.dumps( response,default=default)}
 
     return ret
