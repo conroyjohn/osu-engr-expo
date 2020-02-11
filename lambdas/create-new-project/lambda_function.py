@@ -1,7 +1,14 @@
 from utils import awsHelper as awsUtils
 from datetime import datetime
+from decimal import Decimal
 import uuid
+import json
 
+# used when json.dumps cannot by default decode an element
+def default(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)
+    raise TypeError("Object of type '%s' is not JSON serializable" % type(obj).__name__)
 
 class NULL_NAMESPACE:
     bytes = b''
@@ -21,7 +28,7 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": "The required arguments name,description,picture,team,school,tech,college,links are not present"}
+        "body": json.dumps({"ERROR":"The required arguments name,description,picture,team,school,tech,college,links are not present"})}
 
     # all the args are present so can put in ddb
     item={}
@@ -47,6 +54,6 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": response}
+        "body": json.dumps(response, defualt=default)}
 
     return ret

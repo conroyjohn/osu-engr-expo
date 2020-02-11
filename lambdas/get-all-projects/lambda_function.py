@@ -1,5 +1,12 @@
 from utils import awsHelper as awsUtils
+from decimal import Decimal
+import json
 
+# used when json.dumps cannot by default decode an element
+def default(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)
+    raise TypeError("Object of type '%s' is not JSON serializable" % type(obj).__name__)
 
 def handler(event, context):
 
@@ -15,5 +22,5 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": table_data["Items"]}
+        "body": json.dumps(table_data["Items"], default=default)}
     return ret
