@@ -98,11 +98,13 @@ class MyForm extends React.Component {
     }
 
 
-
-    API.post(apiName, path, postData).then(response => {
+    let myInit = {
+        body: postData
+    }
+    API.post("expo", "/hello-world", myInit).then(response => {
         console.log("Success!!")
     }).catch(error => {
-        console.log(error.response)
+        console.log(error)
     });
 
 
