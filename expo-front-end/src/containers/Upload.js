@@ -105,7 +105,7 @@ class MyForm extends React.Component {
       body: JSON.stringify(postData)
     }).then((response) =>
     {
-        alert("Thanks!")
+        alert("Thanks for submitting a project!")
     });
 
   }
