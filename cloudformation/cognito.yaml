@@ -19,7 +19,7 @@ Resources:
     Properties:
       UserPoolName: !Join ["-", [!Ref AppPrefix, !Ref DeplEnv, "user-pool"]]
       AdminCreateUserConfig:
-        AllowAdminCreateUserOnly: true
+        AllowAdminCreateUserOnly: false
       AutoVerifiedAttributes:
         - email
       UsernameAttributes:
