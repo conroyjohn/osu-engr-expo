@@ -44,20 +44,65 @@ The data for our project is stored in dyanamoDB, a NoSQL database optimized for 
 Each API action corresponds to a lambda function that will be called via an Api Gateway endpoint in our application. The "Resources" that are interacted with in our API are the entities described above.
 
 ## Create New Project
-* done
+* **POST** request
+
+**Required Body Parameters**
+```
+{
+  "name": String,
+  "description": String,
+  "picture": String,
+  "team": List<Map>,
+  "school": String,
+  "tech": String,
+  "college": String,
+  "links": List<Map>
+}
+
+```
+
+
 
 ## Get All Projects
-* can be improved with pagination
-* done
+* **GET** request
+
+**No Required Parameters**
 
 ## Get Project
-* done - test
+* **GET** request
+
+**Required Query String Parameters**
+* project_id
+
 
 ## Create New User
+* **POST** request
+
+**Required Body Parameters**
+```
+{
+  "email": String
+}
+
+```
+
+**No other parameters are required to create a user, but these will be accepted**
+```
+{
+  "display_name":String,
+  "description":String,
+  "links":List<Map>
+}
+
+```
 
 ## Get All Users
-* can be improved with pagination
-* done - test
+* **GET** request
+
+**No Required Parameters**
 
 ## Get User
-* done - test
+* **GET** request
+
+**Required Query String Parameters**
+* user_id

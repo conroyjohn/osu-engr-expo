@@ -8,12 +8,9 @@ class MyForm extends React.Component {
     super();
     //initialize the state
     this.state = {
-        name:'',
+        email:'',
+        display_name:'',
         description:'',
-        picture:'',
-        school:'',
-        tech:'',
-        college:'',
         links:[{ name : "",link:"" }]
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,24 +61,21 @@ class MyForm extends React.Component {
     let inputLinks = this.state.links
 
     let postData = {
-        'name':event.target.projectName.value.toString(),
-        'description':event.target.projectDescription.value.toString(),
-        'picture':event.target.projectPicture.files[0],
-        'school':event.target.projectSchool.value.toString(),
-        'tech':event.target.projectTech.value.toString(),
-        'college':event.target.projectCollege.value.toString(),
+        'name':event.target.userEmail.value.toString(),
+        'description':event.target.userDisplayName.value.toString(),
+        'school':event.target.userDescription.value.toString(),
         'links':inputLinks
     }
 
 
 
-    fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-project', {
+    fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData)
     }).then((response) =>
     {
-        alert("Thanks for submitting a project!")
+        alert("Thanks for submitting adding a user!!")
     });
 
   }
@@ -89,32 +83,18 @@ class MyForm extends React.Component {
   render() {
     return (
       <form id="subform" onSubmit={this.handleSubmit}>
-        <label htmlFor="projectName">Project Name</label>
-        <input id="projectName" name="projectName" type="text" />
+        <label htmlFor="userEmail">User email address - this must be unique</label>
+        <input id="userEmail" name="userEmail" type="text" />
     	<br></br>
 
-        <label htmlFor="projectDescription"> Description: </label>
-    	<textarea id="projectDescription"
-                    placeholder="Enter in a description of the project here"></textarea>
+        <label htmlFor="userDisplayName"> Display Name </label>
+    	<textarea id="userDisplayName"
+                    placeholder="Enter a name for the user that will display on their homepage"></textarea>
     	<br></br>
 
-        <label>Upload a picture for your project</label>
-    	<input id="projectPicture" type="file" name="file"/>
-        <br></br>
-
-
-        <label htmlFor="projectCollege">Project College</label>
-        <input id="projectCollege" name="projectCollege" type="text" />
+        <label htmlFor="userDescription">Description</label>
+        <input id="userDescription" name="userDescription" type="text" />
     	<br></br>
-
-        <label htmlFor="projectSchool">Project School</label>
-        <input id="projectSchool" name="projectSchool" type="text" />
-    	<br></br>
-
-        <label htmlFor="projectTech">Project Technology</label>
-        <input id="projectTech" name="projectTech" type="text" />
-    	<br></br>
-
 
 
         <label>Reference links for the user</label>

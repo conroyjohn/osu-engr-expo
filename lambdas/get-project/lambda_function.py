@@ -12,11 +12,13 @@ def default(obj):
 
 def handler(event, context):
 
+    # ["project_id"]
+    required_args_present=False
 
-    required_args_present = set(['project_id']).issubset(set(list(event.keys())))
-
-    if (not required_args_present):
-        {
+    try:
+        required_args_present = set(['project_id']).issubset(set(list(event["queryStringParameters"].keys())))
+    except Exception as e:
+        return {
         "statusCode" : "400" ,
         "headers" : {
             "Content-Type" : "application/json" ,
@@ -25,11 +27,27 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps({"ERROR":"The required argument [project_id] is not present"})}
+        "body": json.dumps({"ERROR":"Error getting queryStringParameters of request, it may not have been passed correctly",
+                            "Exception":str(e)})
+        }
 
-    # all the args are present so can put in ddb
-    input_data = json.loads(event["body"])
-    project_id = input_data['project_id']
+    if (not required_args_present):
+        return {
+        "statusCode" : "400" ,
+        "headers" : {
+            "Content-Type" : "application/json" ,
+            "Access-Control-Allow-Headers" : 'Content-Type' ,
+            "Access-Control-Allow-Origin" : "*" ,
+            "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
+            "Access-Control-Allow-Credentials" : True
+        },
+        "body": json.dumps({"ERROR":"The required queryStringParameter [PROJECT_ID] is not present"})
+        }
+
+
+
+    # all the args are present so can get
+    project_id = event["queryStringParameters"]["project_id"]
 
     ddb = awsUtils.connect_ddb()
     response=ddb.Table('osu-expo-projects').get_item(Key=project_id)

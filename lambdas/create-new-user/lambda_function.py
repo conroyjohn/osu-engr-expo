@@ -15,11 +15,11 @@ class NULL_NAMESPACE:
 
 def handler(event, context):
 
-
-    required_args_present = set(['email']).issubset(set(list(event.keys())))
-
-    if (not required_args_present):
-        {
+    required_args_present=False
+    try:
+        required_args_present = set(['email']).issubset(set(list(json.loads(event["body"]).keys())))
+    except Exception as e:
+        return {
         "statusCode" : "400" ,
         "headers" : {
             "Content-Type" : "application/json" ,
@@ -28,7 +28,23 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps({"ERROR":"The required argument email is not present"})}
+        "body": json.dumps({"ERROR":"Error getting body of request, it may not have been passed correctly",
+                            "Exception":str(e)})
+        }
+
+    if (not required_args_present):
+        return {
+        "statusCode" : "400" ,
+        "headers" : {
+            "Content-Type" : "application/json" ,
+            "Access-Control-Allow-Headers" : 'Content-Type' ,
+            "Access-Control-Allow-Origin" : "*" ,
+            "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
+            "Access-Control-Allow-Credentials" : True
+        },
+        "body": json.dumps({"ERROR":"The required argument [EMAIL] is not present"})
+        }
+
 
     # all the args are present so can put in ddb
     input_data = json.loads(event["body"])
