@@ -10,12 +10,20 @@ import Upload from "./containers/Upload.js";
 import Login from "./containers/Login.js";
 import HelloWorld from "./containers/HelloWorld.js";
 import ChangePassword from "./containers/ChangePassword.js";
+import Register from "./containers/Register.js";
+import NotFound from "./containers/NotFound.js";
 
 const Routes = ({ appProps }) => {
   return (
     <Switch>
       <AppliedRoute path="/" exact component={Home} appProps={appProps} />
       <AppliedRoute path="/LogIn" exact component={Login} appProps={appProps} />
+      <AppliedRoute
+        path="/Register"
+        exact
+        component={Register}
+        appProps={appProps}
+      />
       <AppliedRoute path="/AR" exact component={AR} appProps={appProps} />
       <AppliedRoute
         path="/Projects"
@@ -30,18 +38,19 @@ const Routes = ({ appProps }) => {
         component={Upload}
         appProps={appProps}
       />
-      <AppliedRoute
+      <AuthenticatedRoute
         path="/changePassword"
         exact
         component={ChangePassword}
         appProps={appProps}
       />
-      <AppliedRoute
+      <AuthenticatedRoute
         path="/HelloWorld"
         exact
         component={HelloWorld}
         appProps={appProps}
       />
+      <Route component={NotFound} />
     </Switch>
   );
 };
