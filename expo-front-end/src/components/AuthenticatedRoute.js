@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const AuthenticatedRoute = ({ component: C, props: appProps, ...rest }) => {
+const AuthenticatedRoute = ({ component: C, appProps, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -9,7 +9,7 @@ const AuthenticatedRoute = ({ component: C, props: appProps, ...rest }) => {
         appProps.isAuthenticated ? (
           <C {...props} {...appProps} />
         ) : (
-          <Redirect to="/SignIn" />
+          <Redirect to="/Login" />
         )
       }
     />
