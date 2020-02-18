@@ -48,7 +48,8 @@ const Nav = props => {
               "AR",
               "Upload",
               "HelloWorld",
-              "ChangePassword"
+              "ChangePassword",
+              "Register"
             ]}
           />
           <StyledTypography variant="h6">Engineering Expo</StyledTypography>
