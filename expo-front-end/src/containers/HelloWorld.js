@@ -13,7 +13,7 @@ const HelloWorld = () => {
   const onLoad = async () => {
     try {
       const resp = await returnBody();
-      console.log(resp);
+      setText(resp);
     } catch (err) {
       console.log(err);
     }
