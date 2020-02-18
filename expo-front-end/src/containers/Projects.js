@@ -5,16 +5,17 @@ import TableFilter from "react-table-filter";
 export default class Table extends Component {
   constructor(props) {
     super(props);
-    /*this.state = {
-      projects: [
+    this.state = {
+      data: [],
+      /*projects: [
         {
           Team: "Alpha",
           Project: "Saving the Planet",
           Department: "Environmental Science",
           Booth: 41
         }
-      ]
-    };*/
+      ]*/
+    };
   }
   
   /*
@@ -27,7 +28,9 @@ export default class Table extends Component {
   */
   
   renderTableHeader(columnHeads) {
-    return <th>{columnHeads.toUpperCase()}</th>;
+    return columnHeads.map((key, index) => {
+       return <th key={index}>{key.toUpperCase()}</th>;
+    });
   }
 
   renderTableData(projectList) {
@@ -43,11 +46,25 @@ export default class Table extends Component {
     });
     
   }
+  
+  	async getData() {
+		try {
+       const data = await fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/get-all-projects');
+       let projectList = data.json();
+			this.setState(
+				{
+					data: projectList
+				},
+				function() {}
+			);
+		} catch (error) {
+			console.error('Error');
+		}
+	}
 
   render() {
     
-    const data = await fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/get-all-projects');
-    let projectList = data.json();
+
     const columnHeads = [
     'name',
     'school',
@@ -63,7 +80,7 @@ export default class Table extends Component {
           <tr>{this.renderTableHeader(columnHeads)}</tr>
           </thead>
           <tbody>
-            {this.renderTableData(projectList)}
+            {this.renderTableData(this.state.data)}
           </tbody>
         </table>
       </div>
