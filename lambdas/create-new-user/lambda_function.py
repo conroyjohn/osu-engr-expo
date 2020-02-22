@@ -13,13 +13,11 @@ def default(obj):
 class NULL_NAMESPACE:
     bytes = b''
 
-
 def handler(event, context):
-
 
     required_args_present=False
     try:
-        required_args_present = set(['name','description','picture','team','school','tech','college','links']).issubset(set(list(json.loads(event["body"]).keys())))
+        required_args_present = set(['email']).issubset(set(list(json.loads(event["body"]).keys())))
     except Exception as e:
         return {
         "statusCode" : "400" ,
@@ -44,24 +42,24 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps({"ERROR":"The required arguments [NAME,DESCRIPTION,PICTURE,TEAM,SCHOOL,TECH,COLLEGE,LINKS] are not present"})
+        "body": json.dumps({"ERROR":"The required argument [EMAIL] is not present"})
         }
+
 
     # all the args are present so can put in ddb
     input_data = json.loads(event["body"])
     item={}
-    item['name'] = input_data['name']
-    item['description'] = input_data['description']
-    item['picture'] = input_data['picture']
-    item['team'] = input_data['team']
-    item['school'] = input_data['school']
-    item['tech'] = input_data['tech']
-    item['college'] = input_data['college']
-    item['links'] = input_data['links']
-    item['project_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data['name']))
+    # using .get and returning None if it doesn't exist since email is the only required arg to create a user
+    item['email'] = input_data.get("email", default=None)
+    item['display_name'] = input_data.get("display_name", default=None)
+    item['description'] = input_data.get("description", default=None)
+    item['links'] = input_data.get("links", default=None)
+
+    # userid based on email and timestamp
+    item['user_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data("email", default=None)))
 
     ddb = awsUtils.connect_ddb()
-    response=ddb.Table('osu-expo-projects').put_item(Item=item)
+    response=ddb.Table('osu-expo-users').put_item(Item=item)
 
 
     ret = {

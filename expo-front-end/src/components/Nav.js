@@ -46,7 +46,8 @@ const Nav = props => {
               "Projects",
               "Map",
               "AR",
-              "Upload",
+              "UploadProject",
+              "NewUser",
               "HelloWorld",
               "ChangePassword",
               "Register"

@@ -1,5 +1,4 @@
 from utils import awsHelper as awsUtils
-from datetime import datetime
 from decimal import Decimal
 import uuid
 import json
@@ -10,16 +9,14 @@ def default(obj):
         return float(obj)
     raise TypeError("Object of type '%s' is not JSON serializable" % type(obj).__name__)
 
-class NULL_NAMESPACE:
-    bytes = b''
-
 
 def handler(event, context):
 
-
+    # ["project_id"]
     required_args_present=False
+
     try:
-        required_args_present = set(['name','description','picture','team','school','tech','college','links']).issubset(set(list(json.loads(event["body"]).keys())))
+        required_args_present = set(['user_id']).issubset(set(list(event["queryStringParameters"].keys())))
     except Exception as e:
         return {
         "statusCode" : "400" ,
@@ -30,7 +27,7 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps({"ERROR":"Error getting body of request, it may not have been passed correctly",
+        "body": json.dumps({"ERROR":"Error getting queryStringParameters of request, it may not have been passed correctly",
                             "Exception":str(e)})
         }
 
@@ -44,24 +41,16 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps({"ERROR":"The required arguments [NAME,DESCRIPTION,PICTURE,TEAM,SCHOOL,TECH,COLLEGE,LINKS] are not present"})
+        "body": json.dumps({"ERROR":"The required queryStringParameter [PROJECT_ID] is not present"})
         }
 
-    # all the args are present so can put in ddb
-    input_data = json.loads(event["body"])
-    item={}
-    item['name'] = input_data['name']
-    item['description'] = input_data['description']
-    item['picture'] = input_data['picture']
-    item['team'] = input_data['team']
-    item['school'] = input_data['school']
-    item['tech'] = input_data['tech']
-    item['college'] = input_data['college']
-    item['links'] = input_data['links']
-    item['project_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data['name']))
+
+
+    # all the args are present so can get
+    user_id = event["queryStringParameters"]["user_id"]
 
     ddb = awsUtils.connect_ddb()
-    response=ddb.Table('osu-expo-projects').put_item(Item=item)
+    response=ddb.Table('osu-expo-projects').get_item(Key=user_id)
 
 
     ret = {
