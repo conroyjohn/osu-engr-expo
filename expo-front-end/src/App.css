@@ -117,3 +117,12 @@ label {
   border: 3px solid #ddd;
   width: 100%;
 }
+Image.igs{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Map{
+   background-image: url("../src/Images/trade-show-floor-plan.png");
+}
