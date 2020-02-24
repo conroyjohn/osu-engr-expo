@@ -94,7 +94,7 @@ Resources:
       #parent resource, this one is root
       ParentId: !GetAtt RestApi.RootResourceId
       #name of the route
-      PathPart: "get-use"
+      PathPart: "get-user"
       RestApiId: !Ref RestApi
 
   HelloWorldLambdaStack:
