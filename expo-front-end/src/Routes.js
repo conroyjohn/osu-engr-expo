@@ -6,6 +6,8 @@ import Home from "./containers/Home.js";
 import AR from "./containers/AR.js";
 import Map from "./containers/Map.js";
 import Projects from "./containers/Projects.js";
+import Users from "./containers/Users.js";
+import EditUserInfo from "./containers/EditUserInfo.js";
 import UploadProject from "./containers/UploadProject.js";
 import Login from "./containers/Login.js";
 import HelloWorld from "./containers/HelloWorld.js";
@@ -29,6 +31,18 @@ const Routes = ({ appProps }) => {
         path="/Projects"
         exact
         component={Projects}
+        appProps={appProps}
+      />
+      <AppliedRoute
+        path="/Users"
+        exact
+        component={Users}
+        appProps={appProps}
+      />
+      <AppliedRoute
+        path="/EditUserInfo"
+        exact
+        component={EditUserInfo}
         appProps={appProps}
       />
       <AppliedRoute path="/Map" exact component={Map} appProps={appProps} />
