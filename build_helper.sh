@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LAMBDA_DIRS="hello-world get-all-projects create-new-project"
+LAMBDA_DIRS="hello-world get-all-projects create-new-project get-all-users create-new-user get-project get-user"
 
 #define temporary variables
 BASEDIR=$PWD
