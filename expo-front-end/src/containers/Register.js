@@ -46,6 +46,17 @@ export default function Register(props) {
       });
       setIsLoading(false);
       setNewUser(newUser);
+
+      let postData = {
+          'email':fields.email.toString()
+      }
+
+      fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      })
+
     } catch (e) {
       alert(e.message);
       setIsLoading(false);

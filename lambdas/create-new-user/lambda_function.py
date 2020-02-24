@@ -50,13 +50,13 @@ def handler(event, context):
     input_data = json.loads(event["body"])
     item={}
     # using .get and returning None if it doesn't exist since email is the only required arg to create a user
-    item['email'] = input_data.get("email", default=None)
-    item['display_name'] = input_data.get("display_name", default=None)
-    item['description'] = input_data.get("description", default=None)
-    item['links'] = input_data.get("links", default=None)
+    item['email'] = input_data.get("email", None)
+    item['display_name'] = input_data.get("display_name", None)
+    item['description'] = input_data.get("description", None)
+    item['links'] = input_data.get("links", None)
 
     # userid based on email and timestamp
-    item['user_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data("email", default=None)))
+    item['user_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data.get("email", None)))
 
     ddb = awsUtils.connect_ddb()
     response=ddb.Table('osu-expo-users').put_item(Item=item)
