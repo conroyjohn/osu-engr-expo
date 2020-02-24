@@ -33,13 +33,8 @@ const Routes = ({ appProps }) => {
         component={Projects}
         appProps={appProps}
       />
-      <AppliedRoute
-        path="/Users"
-        exact
-        component={Users}
-        appProps={appProps}
-      />
-      <AppliedRoute
+      <AppliedRoute path="/Users" exact component={Users} appProps={appProps} />
+      <AuthenticatedRoute
         path="/EditUserInfo"
         exact
         component={EditUserInfo}
