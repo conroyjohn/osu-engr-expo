@@ -78,7 +78,7 @@ class MyForm extends React.Component {
         alert("Thanks for submitting adding a user!!")
     });
 
-  }
+   }
 
   render() {
     return (
