@@ -61,9 +61,9 @@ class MyForm extends React.Component {
     let inputLinks = this.state.links
 
     let postData = {
-        'name':event.target.userEmail.value.toString(),
-        'description':event.target.userDisplayName.value.toString(),
-        'school':event.target.userDescription.value.toString(),
+        'email':event.target.userEmail.value.toString(),
+        'display_name':event.target.userDisplayName.value.toString(),
+        'description':event.target.userDescription.value.toString(),
         'links':inputLinks
     }
 
