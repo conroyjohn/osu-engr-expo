@@ -139,7 +139,7 @@ Resources:
   CreateNewUserLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: create-new-project-lambda.yaml
+      TemplateURL: create-new-user-lambda.yaml
       TimeoutInMinutes: "60"
       Parameters:
         AppPrefix: !Ref AppPrefix
@@ -152,7 +152,7 @@ Resources:
   GetAllUsersLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: create-new-project-lambda.yaml
+      TemplateURL: get-all-users-lambda.yaml
       TimeoutInMinutes: "60"
       Parameters:
         AppPrefix: !Ref AppPrefix
@@ -165,7 +165,7 @@ Resources:
   GetProjectLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: create-new-project-lambda.yaml
+      TemplateURL: get-project-lambda.yaml
       TimeoutInMinutes: "60"
       Parameters:
         AppPrefix: !Ref AppPrefix
@@ -178,7 +178,7 @@ Resources:
   GetUserLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: create-new-project-lambda.yaml
+      TemplateURL: get-user-lambda.yaml
       TimeoutInMinutes: "60"
       Parameters:
         AppPrefix: !Ref AppPrefix
