@@ -102,7 +102,7 @@ class MyForm extends React.Component {
 
 
     fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/update-user-details', {
-      method: 'POST',
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData)
     }).then((response) =>
