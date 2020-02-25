@@ -61,6 +61,51 @@ Resources:
       PathPart: "create-new-project"
       RestApiId: !Ref RestApi
 
+  CreateNewUserResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "create-new-user"
+      RestApiId: !Ref RestApi
+
+  GetAllUsersResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "get-all-users"
+      RestApiId: !Ref RestApi
+
+  GetProjectResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "get-project"
+      RestApiId: !Ref RestApi
+
+  GetUserResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "get-user"
+      RestApiId: !Ref RestApi
+
+  UpdateUserDetailsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "update-user-details"
+      RestApiId: !Ref RestApi
+
   HelloWorldLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -99,6 +144,71 @@ Resources:
         RestApiId: !Ref RestApi
     DependsOn:
       - CreateNewProjectResource
+
+  CreateNewUserLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: create-new-user-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref CreateNewUserResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - CreateNewUserResource
+
+  GetAllUsersLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: get-all-users-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref GetAllUsersResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - GetAllUsersResource
+
+  GetProjectLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: get-project-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref GetProjectResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - GetProjectResource
+
+  GetUserLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: get-user-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref GetUserResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - GetUserResource
+
+  UpdateUserDetailsLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: update-user-details.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref UpdateUserDetailsResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - UpdateUserDetailsResource
 
   #Don't need to change or create for each lambda
   RestApiDeployment:

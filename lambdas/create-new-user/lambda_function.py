@@ -1,7 +1,6 @@
 from utils import awsHelper as awsUtils
 from datetime import datetime
 from decimal import Decimal
-import uuid
 import json
 
 # used when json.dumps cannot by default decode an element
@@ -17,7 +16,7 @@ def handler(event, context):
 
     required_args_present=False
     try:
-        required_args_present = set(['email']).issubset(set(list(json.loads(event["body"]).keys())))
+        required_args_present = set(['email','user_id']).issubset(set(list(json.loads(event["body"]).keys())))
     except Exception as e:
         return {
         "statusCode" : "400" ,
@@ -50,13 +49,13 @@ def handler(event, context):
     input_data = json.loads(event["body"])
     item={}
     # using .get and returning None if it doesn't exist since email is the only required arg to create a user
-    item['email'] = input_data.get("email", default=None)
-    item['display_name'] = input_data.get("display_name", default=None)
-    item['description'] = input_data.get("description", default=None)
-    item['links'] = input_data.get("links", default=None)
+    item['email'] = input_data.get("email", None)
+    item['display_name'] = input_data.get("display_name", None)
+    item['description'] = input_data.get("description", None)
+    item['links'] = input_data.get("links", None)
 
     # userid based on email and timestamp
-    item['user_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data("email", default=None)))
+    item['user_id'] = input_data.get("user_id", None)
 
     ddb = awsUtils.connect_ddb()
     response=ddb.Table('osu-expo-users').put_item(Item=item)

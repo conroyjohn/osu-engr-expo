@@ -44,10 +44,11 @@ const Nav = props => {
           <SwipeSideDrawer
             routes={[
               "Projects",
+              "Users",
+              "EditUserInfo",
               "Map",
               "AR",
               "UploadProject",
-              "NewUser",
               "HelloWorld",
               "ChangePassword",
               "Register"
