@@ -138,7 +138,7 @@ class MyForm extends React.Component {
     let postData = {
       name: this.state.name,
       description: this.state.description,
-      picture: null, //this.state.file,
+      picture: s3Key, //this.state.file,
       team: team,
       school: this.state.school,
       tech: this.state.tech,
