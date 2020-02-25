@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import styled from "styled-components";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import "../App.css";
 
 const FormContainer = styled.div`
@@ -122,6 +122,18 @@ class MyForm extends React.Component {
 
     let team = this.state.team;
     let inputLinks = this.state.links;
+
+    let s3Key;
+
+    Storage.put(`userimages/${this.state.fileName}`, this.state.file, {
+      contentType: this.state.file.type
+    })
+      .then(result => {
+        s3Key = result;
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     let postData = {
       name: this.state.name,
