@@ -48,7 +48,8 @@ export default function Register(props) {
       setNewUser(newUser);
 
       let postData = {
-        email: fields.email.toString()
+        email: fields.email.toString(),
+        user_id: newUser["userSub"].toString()
       };
 
       fetch(
