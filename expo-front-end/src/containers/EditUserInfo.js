@@ -21,18 +21,20 @@ class MyForm extends React.Component {
   async componentDidMount() {
       try {
           const response = await Auth.currentAuthenticatedUser();
-          console.log(response)
+          let userDetailInit = await fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/get-user?user_id='+response['attributes']['sub'])
+          let userDetailInitJson = await userDetailInit.json();
+          console.log(userDetailInitJson["Item"])
 
           this.setState({
                   email:response['attributes']['email'],
-                  display_name:response['attributes']['display_name'],
-                  description:response['attributes']['description'],
+                  display_name:userDetailInitJson["Item"]["display_name"],
+                  description:userDetailInitJson["Item"]["description"],
                   user_id:response['attributes']['sub']
           })
 
-          if(typeof response['attributes']['links']!== "undefined") {
+          if(typeof userDetailInitJson["Item"]["links"]!== "undefined") {
               this.setState({
-                      links:response['attributes']['links']
+                      links:userDetailInitJson["Item"]["links"]
               })
           }
 
