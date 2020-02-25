@@ -1,5 +1,4 @@
 from utils import awsHelper as awsUtils
-from datetime import datetime
 from decimal import Decimal
 import json
 
@@ -9,14 +8,12 @@ def default(obj):
         return float(obj)
     raise TypeError("Object of type '%s' is not JSON serializable" % type(obj).__name__)
 
-class NULL_NAMESPACE:
-    bytes = b''
 
 def handler(event, context):
 
     required_args_present=False
     try:
-        required_args_present = set(['email','user_id']).issubset(set(list(json.loads(event["body"]).keys())))
+        required_args_present = set(['user_id']).issubset(set(list(json.loads(event["body"]).keys())))
     except Exception as e:
         return {
         "statusCode" : "400" ,
@@ -47,18 +44,29 @@ def handler(event, context):
 
     # all the args are present so can put in ddb
     input_data = json.loads(event["body"])
-    item={}
     # using .get and returning None if it doesn't exist since email is the only required arg to create a user
-    item['email'] = input_data.get("email", None)
-    item['display_name'] = input_data.get("display_name", None)
-    item['description'] = input_data.get("description", None)
-    item['links'] = input_data.get("links", None)
+    display_name = input_data.get("display_name", None)
+    description = input_data.get("description", None)
+    links = input_data.get("links", None)
 
     # userid based on email and timestamp
-    item['user_id'] = input_data.get("user_id", None)
+    user_id = input_data.get("user_id", None)
 
     ddb = awsUtils.connect_ddb()
-    response=ddb.Table('osu-expo-users').put_item(Item=item)
+    response=ddb.Table('osu-expo-users').update_item(
+        Key=user_id,
+        UpdateExpression="SET #DISPLAY_NAME_ATTR = :DISPLAY_NAME_VAL, #DESC_ATTR = :DESC_VAL, #LINKS_ATTR = :LINKS_VAL",
+        ExpressionAttributeNames = {
+            "#DISPLAY_NAME_ATTR":"DISPLAY_NAME_VAL",
+            "#DESC_ATTR":"DESC_VAL",
+            "#LINKS_ATTR":"LINKS_VAL"
+        },
+        ExpressionAttributeValues={
+            ":DISPLAY_NAME_VAL": str(display_name),
+            ":DESC_VAL": str(description),
+            ":LINKS_VAL": links
+        }
+    )
 
 
     ret = {

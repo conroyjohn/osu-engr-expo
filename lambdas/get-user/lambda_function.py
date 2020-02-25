@@ -50,7 +50,7 @@ def handler(event, context):
     user_id = event["queryStringParameters"]["user_id"]
 
     ddb = awsUtils.connect_ddb()
-    response=ddb.Table('osu-expo-projects').get_item(Key=user_id)
+    response=ddb.Table('osu-expo-users').get_item(Key=user_id)
 
 
     ret = {
