@@ -52,7 +52,7 @@ export default function Register(props) {
         user_id: newUser["userSub"].toString()
       };
 
-      fetch(
+      await fetch(
         "https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-user",
         {
           method: "POST",
