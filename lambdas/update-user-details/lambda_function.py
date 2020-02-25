@@ -54,12 +54,12 @@ def handler(event, context):
 
     ddb = awsUtils.connect_ddb()
     response=ddb.Table('osu-expo-users').update_item(
-        Key=user_id,
+        Key={'user_id':user_id},
         UpdateExpression="SET #DISPLAY_NAME_ATTR = :DISPLAY_NAME_VAL, #DESC_ATTR = :DESC_VAL, #LINKS_ATTR = :LINKS_VAL",
         ExpressionAttributeNames = {
-            "#DISPLAY_NAME_ATTR":"DISPLAY_NAME_VAL",
-            "#DESC_ATTR":"DESC_VAL",
-            "#LINKS_ATTR":"LINKS_VAL"
+            "#DISPLAY_NAME_ATTR":"display_name",
+            "#DESC_ATTR":"description",
+            "#LINKS_ATTR":"links"
         },
         ExpressionAttributeValues={
             ":DISPLAY_NAME_VAL": str(display_name),
