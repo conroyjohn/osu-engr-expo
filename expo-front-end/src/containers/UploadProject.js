@@ -117,28 +117,26 @@ class MyForm extends React.Component {
     });
   };
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
 
     let team = this.state.team;
     let inputLinks = this.state.links;
 
-    let s3Key;
+    var s3Key;
 
-    Storage.put(`userimages/${this.state.fileName}`, this.state.file, {
-      contentType: this.state.file.type
-    })
-      .then(result => {
-        s3Key = result;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    s3Key = await Storage.put(
+      `userimages/${this.state.fileName}`,
+      this.state.file,
+      {
+        contentType: this.state.file.type
+      }
+    );
 
     let postData = {
       name: this.state.name,
       description: this.state.description,
-      picture: s3Key, //this.state.file,
+      picture: s3Key.key,
       team: team,
       school: this.state.school,
       tech: this.state.tech,
