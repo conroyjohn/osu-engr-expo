@@ -73,7 +73,7 @@ data-tip='Team Name: Art Attacks<br /> Project Name: Saving the word from Cyber 
 </div>
 
     <div style={{ position:"relative", top:"26%", left:"9%"}}> 
-             <button ref={ref => this.looRef = ref} data-tip='Team Name: Tim sucks<br /> Project Name: Tim sucks so much i do not know how he can still have a mouth because he sucks so much' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.looRef) }} data-event='click'> </button>
+             <button ref={ref => this.looRef = ref} data-tip='Team Name: Alpha Omega <br /> Project Name: Place a description of yourproject here' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.looRef) }} data-event='click'> </button>
 <ReactTooltip />
             </div>
      
