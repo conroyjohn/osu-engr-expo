@@ -7,7 +7,7 @@ import ReactTooltip from 'react-tooltip';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Tooltip from '@material-ui/core/Tooltip';
-import {Row,Col} from 'react-flexbox-grid';
+
 
 /*
 var sectionStyle = {
@@ -50,14 +50,14 @@ return(
 <button ref={ref => this.sooRef = ref} 
 //When integrating use this section of code:
 //use<ReactTooltip id='test' getContent={() => { return null }}/>
-data-tip='Team Name: Art Attacks<br /> Project Name: Saving the word from Cyber Attack <br /> Project description: This project is about securing the world of tomorrow from nationwide attacks using blah blah blah' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.sooRef) }} data-event='click'> </button>
+data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.sooRef) }} data-event='click'> </button>
 <ReactTooltip />
 
 <div style={{ position:"relative", top:"1%", left:"12.5%", width: '50px', height: '30px'}}> 
 <button style={{ background: 'transparent', outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.mooRef = ref} 
 //When integrating use this section of code:
 //use<ReactTooltip id='test' getContent={() => { return null }}/>
-data-tip='put Data in here' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.mooRef) }} data-event='click'> </button>
+data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.mooRef) }} data-event='click'> </button>
 <ReactTooltip />
 </div>
 
@@ -68,37 +68,99 @@ data-tip='put Data in here' data-place= 'right' data-type= 'info' text-align= 'l
   outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.fooRef = ref} 
 //When integrating use this section of code:
 //use<ReactTooltip id='test' getContent={() => { return null }}/> Delete the string data in data-tip
-data-tip='Team Name: Art Attacks<br /> Project Name: Saving the word from Cyber Attack <br /> Project description: This project is about securing the world of tomorrow from nationwide attacks using blah blah blah' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.fooRef) }} data-event='click'> </button>
+data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.fooRef) }} data-event='click'> </button>
 <ReactTooltip />
 </div>
-
-    <div style={{ position:"relative", top:"26%", left:"9%"}}> 
-             <button ref={ref => this.looRef = ref} data-tip='Team Name: Alpha Omega <br /> Project Name: Place a description of yourproject here' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.looRef) }} data-event='click'> </button>
+ {/*Div for Booth 110*/}
+    <div style={{ position:"relative", top:"27.5%", left:"7.75%", width: '50px', height: '50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.looRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.looRef) }} data-event='click'> </button>
 <ReactTooltip />
-            </div>
-     
+    </div>
+{/*Div for Booth 109*/}
+       <div style={{ position:"relative", top:"4%", left:"7.75%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.looRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.looRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+  {/*Div for Booth 111*/}   
+       <div style={{ position:"relative", top:"20%", left:"7.75%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+   {/*Div for Booth 112*/}   
+       <div style={{ position:"relative", top:"24%", left:"7.75%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+   {/*Div for Booth 113*/}   
+       <div style={{ position:"relative", top:"-26%", left:"12.5%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+       {/*Div for Booth 114*/}   
+       <div style={{ position:"relative", top:"-22.5%", left:"12.5%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+    
+
+       {/*Div for Booth 115*/}   
+       <div style={{ position:"relative", top:"-18.5%", left:"12.5%", height:'100px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+</div>
+       {/*Div for Booth 116*/}   
+       <div style={{ position:"relative", top:"-65.5%", left:"21.25%", height:'100px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+{/*Div for Booth 117*/}   
+       <div style={{ position:"relative", top:"-58.5%", left:"21.25%", height:'100px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+{/*Div for Booth 118*/}   
+       <div style={{ position:"relative", top:"-105.5%", left:"29.25%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
+{/*Div for Booth 119*/}   
+       <div style={{ position:"relative", top:"-102.25%", left:"29.25%", height:'50px', width:'50px'}}> 
+             <button style={{ 
+  //background: 'transparent', 
+  outline: 'none', border: 'none', height: '100%', width: '100%'}} ref={ref => this.booRef = ref} data-tip='Team Name: Expose<br /> Project Name: Saving the word from Cyber Attack' data-place= 'right' data-type= 'info' text-align= 'left' data-multiline ='true' onClick={() => {ReactTooltip.show(this.booRef) }} data-event='click'> </button>
+<ReactTooltip />
+    </div>
+
  	</div>);	
 }
-};
-
-
-
-
-function App() {
-   return (
-      <div style={{ //backgroundImage:`url(require(${expo}))`,
-		    backgroundImage: "url(/trade-show-floor-plan.png)",
-	            height:"401px",
-		    width:"100%",
-		    backgroundposition: "center",
-		    backgroundRepeat: "no-repeat" }} >
-         <h1> Hello <br/>
-	Hello2 <br/>
-	Hello3 <br/>
-	Hello4</h1>
-	
-      </div>
-   );
 }
+
 
 export default Map;
