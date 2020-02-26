@@ -113,6 +113,16 @@ Resources:
                 Action:
                   - "execute-api:Invoke"
                 Resource: "*"
+              - Effect: "Allow"
+                Action:
+                  - "s3:*"
+                Resource:
+                  - Fn::Join:
+                      - ""
+                      - - "arn:aws:s3:::osu-engr-expo-test-images"
+                        - "/protected/"
+                        - "$"
+                        - "{cognito-identity.amazonaws.com:sub}/*"
 
 Outputs:
   CognitoUserPoolId:

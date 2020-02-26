@@ -48,16 +48,18 @@ export default function Register(props) {
       setNewUser(newUser);
 
       let postData = {
-          'email':fields.email.toString(),
-          'user_id':newUser["userSub"].toString()
-      }
+        email: fields.email.toString(),
+        user_id: newUser["userSub"].toString()
+      };
 
-      fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
-      })
-
+      await fetch(
+        "https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/create-new-user",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData)
+        }
+      );
     } catch (e) {
       alert(e.message);
       setIsLoading(false);
@@ -108,7 +110,7 @@ export default function Register(props) {
               disabled={!validateConfirmationForm()}
               size="large"
             >
-              Sign In
+              Confirm Registration
             </LoaderButton>
           </form>
         </FormContainer>
@@ -165,7 +167,7 @@ export default function Register(props) {
               disabled={!validateForm()}
               size="large"
             >
-              Sign In
+              Register
             </LoaderButton>
           </form>
         </FormContainer>

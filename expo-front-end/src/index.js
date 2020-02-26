@@ -35,6 +35,12 @@ Amplify.configure({
         sceneConfig: scene1Config // Scene configuration from Sumerian publish
       } */
     }
+  },
+  Storage: {
+    bucket: config.storage.BUCKET,
+    level: "protected",
+    region: config.storage.REGION,
+    identityPoolId: config.storage.IDENTITY_POOL_ID
   }
 });
 
