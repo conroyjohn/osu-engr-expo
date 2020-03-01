@@ -9,11 +9,36 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
-{/*This is the class that will create the tooltip Divs. Setting the positions based on percentages will allow the divs to show up in the same relative position on the Map regardless of where the page is opened up on (web vs. phone)
+/*This is the class that will create the tooltip Divs. Setting the positions based on percentages will allow the divs to show up in the same relative position on the Map regardless of where the page is opened up on (web vs. phone)
 Each Component has an id passed into it that can be used to reference the booth.
-There are two components MyComponent and Mycomponenet Left. The only difference is the position of the tooltip but the Lambda function must go in both of them */}
+There are two components MyComponent and Mycomponenet Left. The only difference is the position of the tooltip but the Lambda function must go in both of them */
 class MyComponent extends React.Component{
 
+    constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      data: {}
+    };
+    }
+	
+  	async componentDidMount() {
+		try {
+			const response = await fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/get-all-projects');
+			let responseJson = await response.json();
+			this.setState(
+				{
+					isLoading: false,
+					data: responseJson
+				},
+				function() {}
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+	
+	
   render(){
     return (
       <div style={{ position:"absolute", top: this.props.t, left:this.props.l, width:this.props.w, height:this.props.h }}> 
@@ -34,6 +59,8 @@ class MyComponent extends React.Component{
 }
 
 class MyComponentLeft extends React.Component{
+	
+	
 
   render(){
     return (
@@ -152,5 +179,6 @@ render(){
 }
 }
 
-
 export default Map;
+
+// Daniel Lindsay - Referenced this for the API code: https://medium.com/serverlessguru/serverless-api-with-reactjs-6fa297ac8a27
