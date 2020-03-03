@@ -6,6 +6,7 @@ import Home from "./containers/Home.js";
 import AR from "./containers/AR.js";
 import Map from "./containers/Map.js";
 import Projects from "./containers/Projects.js";
+import ProjectDetail from "./containers/ProjectDetail.js";
 import Users from "./containers/Users.js";
 import EditUserInfo from "./containers/EditUserInfo.js";
 import UploadProject from "./containers/UploadProject.js";
@@ -18,7 +19,7 @@ import NotFound from "./containers/NotFound.js";
 const Routes = ({ appProps }) => {
   return (
     <Switch>
-      <AppliedRoute path="/" exact component={Home} appProps={appProps} />
+      <AppliedRoute path="/" exact component={Projects} appProps={appProps} />
       <AppliedRoute path="/LogIn" exact component={Login} appProps={appProps} />
       <AppliedRoute
         path="/Register"
@@ -31,6 +32,12 @@ const Routes = ({ appProps }) => {
         path="/Projects"
         exact
         component={Projects}
+        appProps={appProps}
+      />
+      <AppliedRoute
+        path="/ProjectDetail"
+        exact
+        component={ProjectDetail}
         appProps={appProps}
       />
       <AppliedRoute path="/Users" exact component={Users} appProps={appProps} />
