@@ -11,9 +11,7 @@ import { Link } from "react-router-dom";
 import SwipeSideDrawer from "./SwipeSideDrawer.js";
 
 //add styles to an html element
-const Root = styled.div`
-  flex-grow: 1;
-`;
+const Root = styled.div``;
 
 //add new styles or override existing styles of a material ui component
 const StyledAppBar = styled(AppBar)`
@@ -49,7 +47,6 @@ const Nav = props => {
               "Map",
               "AR",
               "UploadProject",
-              "HelloWorld",
               "ChangePassword",
               "Register"
             ]}
