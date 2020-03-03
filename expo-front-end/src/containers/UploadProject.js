@@ -46,6 +46,7 @@ class MyForm extends React.Component {
       college: "",
       file: null,
       fileName: "",
+      boothNumber:"",
       links: [{ name: "", link: "" }]
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -140,6 +141,7 @@ class MyForm extends React.Component {
       team: team,
       school: this.state.school,
       tech: this.state.tech,
+      boothNumber: this.state.boothNumber,
       college: this.state.college,
       links: inputLinks
     };
@@ -222,6 +224,18 @@ class MyForm extends React.Component {
               margin="normal"
               fullWidth
               value={this.state.tech}
+              size="small"
+              onChange={this.handleFieldChange}
+            />
+
+            <TextField
+              required
+              id="boothNumber"
+              label="Booth Number (100-132)"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              value={this.state.boothNumber}
               size="small"
               onChange={this.handleFieldChange}
             />

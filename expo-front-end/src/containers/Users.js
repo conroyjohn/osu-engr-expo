@@ -63,16 +63,31 @@ export default class Table extends Component {
 
 
     return (
-      <div>
-        <h1 id="title">Expo Members</h1>
-        <table id="users">
-          <thead>
-          <tr>{this.renderTableHeader(columnHeads)}</tr>
-          </thead>
-          <tbody>
-            {this.renderTableData()}
-          </tbody>
-        </table>
+      <div id="entireContainer">
+        <span id="tableContainer">
+            <h1 id="title">Expo Members</h1>
+            <table id="users">
+              <thead>
+              <tr>{this.renderTableHeader(columnHeads)}</tr>
+              </thead>
+              <tbody>
+                {this.renderTableData()}
+              </tbody>
+            </table>
+        </span>
+
+        <span id="detailsContainer">
+                <h1 id="title">Expo Members</h1>
+                <table id="users">
+                  <thead>
+                  <tr>{this.renderTableHeader(columnHeads)}</tr>
+                  </thead>
+                  <tbody>
+                    {this.renderTableData()}
+                  </tbody>
+                </table>
+
+        </span>
       </div>
     );
 
