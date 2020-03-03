@@ -16,6 +16,13 @@ const theme = createMuiTheme({
   palette: { primary: { main: "#d73f09" } }
 });
 
+const Flex = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+`;
+
 const App = props => {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -54,11 +61,13 @@ const App = props => {
       (see StyledPaper above) */}
           <StyledThemeProvider theme={theme}>
             <CssBaseline />
-            <Nav
-              handleLogout={handleLogout}
-              isAuthenticated={isAuthenticated}
-            />
-            <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
+            <Flex>
+              <Nav
+                handleLogout={handleLogout}
+                isAuthenticated={isAuthenticated}
+              />
+              <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
+            </Flex>
           </StyledThemeProvider>
         </ThemeProvider>
       </StylesProvider>
