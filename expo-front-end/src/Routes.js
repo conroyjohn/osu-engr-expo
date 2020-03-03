@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import AppliedRoute from "./components/AppliedRoute.js";
 import AuthenticatedRoute from "./components/AuthenticatedRoute.js";
 import Home from "./containers/Home.js";
+import EditProject from "./containers/EditProject.js";
 import AR from "./containers/AR.js";
 import Map from "./containers/Map.js";
 import Projects from "./containers/Projects.js";
@@ -52,6 +53,13 @@ const Routes = ({ appProps }) => {
         path="/UploadProject"
         exact
         component={UploadProject}
+        appProps={appProps}
+      />
+      <AppliedRoute path="/EditProject" exact component={EditProject} appProps={appProps} />
+      <AppliedRoute
+        path="/EditProject"
+        exact
+        component={EditProject}
         appProps={appProps}
       />
       <AuthenticatedRoute
