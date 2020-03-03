@@ -138,23 +138,6 @@ label {
   width: 100%;
 }
 
-#tableContainer{
-    float:left;
-    margin-left: 5%;
-    position: fixed;
-    width: 40%;
-}
-
-#detailsContainer{
-    right: 0;
-    width: 60%;
-    position: fixed;
-}
-
-#entireContainer{
-    display: inline-block;
-    width: 100%
-}
 
 
 Image.igs{
