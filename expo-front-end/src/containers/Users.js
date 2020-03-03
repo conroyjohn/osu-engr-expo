@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import "../App.css";
 import TableFilter from "react-table-filter";
+import { Redirect } from 'react-router-dom'
 
 export default class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      data: {}
+      data: {},
+      redirect:null
     };
   }
 
@@ -16,14 +18,18 @@ export default class Table extends Component {
        return <th key={index}>{key.toUpperCase()}</th>;
     });
   }
+  goToUser(input,e){
+      let dest = '/userDetail?user_id='+input
+      this.setState({redirect:dest})
+  }
 
   renderTableData() {
-    return this.state.data.map((projects, key) => {
+    return this.state.data.map((users, key) => {
       return (
-        <tr key={key}>
-          <td>{projects.display_name}</td>
-          <td>{projects.email}</td>
-          <td>{projects.description}</td>
+        <tr key={key} data-href='google.com'>
+          <td>{users.display_name}</td>
+          <td>{users.email}</td>
+          <td><button onClick={(e)=>this.goToUser(users.user_id,e)}>Go!</button></td>
         </tr>
       );
     });
@@ -50,10 +56,13 @@ export default class Table extends Component {
     const columnHeads = [
     'name',
     'email',
-    'description'
+    'details'
   ];
 
-
+  if(this.state.redirect){
+      const {redirect}=this.state;
+      return <Redirect to={redirect} />
+  }
 
 
   if (this.state.isLoading) {
@@ -63,16 +72,18 @@ export default class Table extends Component {
 
 
     return (
-      <div>
-        <h1 id="title">Expo Members</h1>
-        <table id="users">
-          <thead>
-          <tr>{this.renderTableHeader(columnHeads)}</tr>
-          </thead>
-          <tbody>
-            {this.renderTableData()}
-          </tbody>
-        </table>
+      <div id="entireContainer">
+        <span id="tableContainer">
+            <h1 id="title">Expo Members</h1>
+            <table id="users">
+              <thead>
+              <tr>{this.renderTableHeader(columnHeads)}</tr>
+              </thead>
+              <tbody>
+                {this.renderTableData()}
+              </tbody>
+            </table>
+        </span>
       </div>
     );
 

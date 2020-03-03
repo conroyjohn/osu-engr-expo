@@ -19,7 +19,7 @@ def handler(event, context):
 
     required_args_present=False
     try:
-        required_args_present = set(['name','description','picture','team','school','tech','college','links']).issubset(set(list(json.loads(event["body"]).keys())))
+        required_args_present = set(['name','description','picture','team','school','tech','college','links','boothNumber']).issubset(set(list(json.loads(event["body"]).keys())))
     except Exception as e:
         return {
         "statusCode" : "400" ,
@@ -58,6 +58,7 @@ def handler(event, context):
     item['tech'] = input_data['tech']
     item['college'] = input_data['college']
     item['links'] = input_data['links']
+    item['booth_number'] = input_data['boothNumber']
     item['project_id'] = str(uuid.uuid3(NULL_NAMESPACE, str(datetime.now())+input_data['name']))
 
     ddb = awsUtils.connect_ddb()

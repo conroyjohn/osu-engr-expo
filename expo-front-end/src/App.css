@@ -88,8 +88,7 @@ label {
   width: 100%;
 }
 
-#projects td,
-#students th {
+#projects td{
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -110,6 +109,27 @@ label {
   color: white;
 }
 
+#users td{
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#users tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#users tr:hover {
+  background-color: #ddd;
+}
+
+#users th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #d73f09;
+  color: white;
+}
+
 #subform {
   text-align: left;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -117,9 +137,11 @@ label {
   border: 3px solid #ddd;
   width: 100%;
 }
+
+
+
 Image.igs{
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-
