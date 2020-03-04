@@ -106,6 +106,15 @@ Resources:
       PathPart: "update-user-details"
       RestApiId: !Ref RestApi
 
+  UpdateProjectDetailsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      #parent resource, this one is root
+      ParentId: !GetAtt RestApi.RootResourceId
+      #name of the route
+      PathPart: "update-project-details"
+      RestApiId: !Ref RestApi
+
   HelloWorldLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -209,6 +218,19 @@ Resources:
         RestApiId: !Ref RestApi
     DependsOn:
       - UpdateUserDetailsResource
+
+  UpdateProjectDetailsLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: update-project-details-lambda.yaml
+      TimeoutInMinutes: "60"
+      Parameters:
+        AppPrefix: !Ref AppPrefix
+        DeplEnv: !Ref DeplEnv
+        ResourceId: !Ref UpdateProjectDetailsResource
+        RestApiId: !Ref RestApi
+    DependsOn:
+      - UpdateProjectDetailsResource
 
   #Don't need to change or create for each lambda
   RestApiDeployment:
