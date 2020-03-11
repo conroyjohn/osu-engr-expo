@@ -10,12 +10,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import styled from "styled-components";
 import Container from "@material-ui/core/Container";
 
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: ${({ theme }) => `${theme.spacing(1)}px`};
-`;
 
 /*This is the class that will create the tooltip Divs. Setting the positions based on percentages will allow the divs to show up in the same relative position on the Map regardless of where the page is opened up on (web vs. phone)
 Each Component has an id passed into it that can be used to reference the booth.
@@ -154,91 +148,96 @@ class Map extends React.Component{
 render(){
  
   return(
-  <Container><FormContainer><div style={{ 
+<Container><div style={{ 
           backgroundImage: "url(/trade-show-floor-plan.png)",
-                height:"500px",
-          width:"100%",
-          backgroundposition: "center",
+          backgroundSize: "contain",
+          width: "100%",
+          height:"0",
+          paddingBottom: "60%",
+          backgroundPosition: "center",
           alignItems:'center',
           justifyContent: 'center',
           position: "relative",
-          backgroundRepeat: "no-repeat" }} >
+          display:"flex",
+          backgroundRepeat: "no-repeat",
+          overflowX: "auto",
+          overflowY: "auto" }} >
    <componentDidMount/>
 {/*top row of Map*/}
   {/*Div for Booth 100*/}
 
-  <MyComponent t="18%" l="7.75%" w="4%" h="5%" id="100"/>
+  <MyComponent t="16%" l="17%" w="4%" h="5%" id="100"/>
   {/*Div for Booth 101*/}
-  <MyComponent t="18%" l="13%" w="4%" h="5%" id="101" />
+  <MyComponent t="16%" l="24%" w="4%" h="5%" id="101" />
   {/*Div for Booth 102*/}
-  <MyComponent t="18%" l="18%" w="4%" h="5%" id="102" />
+  <MyComponent t="16%" l="31%" w="4%" h="5%" id="102" />
   {/*Div for Booth 103*/}
-  <MyComponent t="18%" l="24%" w="4%" h="5%" id="103"/>
+  <MyComponent t="16%" l="39%" w="4%" h="5%" id="103"/>
   {/*Div for Booth 104*/}
-   <MyComponentLeft t="18%" l="29%" w="4%" h="5%" id="104" /> 
+   <MyComponentLeft t="16%" l="46%" w="4%" h="5%" id="104" /> 
   {/*Div for Booth 105*/}
-   <MyComponentLeft t="18%" l="35%" w="4%" h="5%" id="105"/>  
+   <MyComponentLeft t="16%" l="53%" w="4%" h="5%" id="105"/>  
   {/*Div for Booth 106*/}
-   <MyComponentLeft t="18%" l="40%" w="4%" h="5%" id="106"/> 
+   <MyComponentLeft t="16%" l="60%" w="4%" h="5%" id="106"/> 
   {/*Div for Booth 107*/}
-   <MyComponentLeft t="18%" l="45%" w="4%" h="5%" id="107"/> 
+   <MyComponentLeft t="16%" l="67%" w="4%" h="5%" id="107"/> 
   {/*Div for Booth 108*/}
-   <MyComponentLeft t="18%" l="50%" w="4%" h="5%" id="108"/> 
+   <MyComponentLeft t="16%" l="74%" w="4%" h="5%" id="108"/> 
 
 {/*Second row of Map*/} 
   {/*Div for Booth 109*/}
-   <MyComponent t="30%" l="8.5%" w="4%" h="10%" id="109"/> 
+   <MyComponent t="26%" l="17%" w="4%" h="10%" id="109"/> 
   {/*Div for Booth 113*/}
-   <MyComponent t="30%" l="14.0%" w="4%" h="10%" id="113"/> 
+   <MyComponent t="26%" l="24%" w="4%" h="10%" id="113"/> 
   {/*Div for Booth 116*/}
-   <MyComponent t="30%" l="24%" w="4%" h="24%" id="116"/> 
+   <MyComponent t="26%" l="38%" w="4%" h="22%" id="116"/> 
   {/*Div for Booth 118*/}
-   <MyComponentLeft t="30%" l="33.0%" w="4%" h="10%" id="118"/> 
+   <MyComponentLeft t="26%" l="51.0%" w="4%" h="10%" id="118"/> 
   {/*Div for Booth 122*/}
-   <MyComponentLeft t="30%" l="38.0%" w="4%" h="10%" id="122"/> 
+   <MyComponentLeft t="26%" l="58.0%" w="4%" h="10%" id="122"/> 
    {/*Div for Booth 126*/}
-   <MyComponentLeft t="30%" l="47.5%" w="4%" h="10%" id="126"/> 
+   <MyComponentLeft t="26%" l="71%" w="4%" h="10%" id="126"/> 
      {/*Div for Booth 129*/}
-   <MyComponentLeft t="30%" l="53.%" w="4%" h="10%" id="129"/>
+   <MyComponentLeft t="26%" l="78.0%" w="4%" h="10%" id="129"/>
 
 {/*Third row of Map*/} 
   {/*Div for Booth 110*/}
-   <MyComponent t="43.25%" l="8.5%" w="4%" h="10%" id="110"/> 
+   <MyComponent t="39%" l="17%" w="4%" h="10%" id="110"/> 
   {/*Div for Booth 114*/}
-   <MyComponent t="43.25%" l="14%" w="4%" h="10%" id="114"/> 
+   <MyComponent t="39%" l="24%" w="4%" h="10%" id="114"/> 
    {/*Div for Booth 119*/} 
-   <MyComponentLeft t="43.75%" l="33.0%" w="4%" h="10%" id="119"/> 
+   <MyComponentLeft t="39%" l="51.0%" w="4%" h="10%" id="119"/> 
   {/*Div for Booth 123*/}
-   <MyComponentLeft t="43.75%" l="38.0%" w="4%" h="10%" id="123"/> 
+   <MyComponentLeft t="39%" l="58.0%" w="4%" h="10%" id="123"/> 
    {/*Div for Booth 127*/}
-   <MyComponentLeft t="43.75%" l="47.5%" w="4%" h="10%" id="127"/> 
+   <MyComponentLeft t="39%" l="71%" w="4%" h="10%" id="127"/> 
      {/*Div for Booth 130*/}
-   <MyComponentLeft t="43.75%" l="53.%" w="4%" h="10%" id="130"/>
+   <MyComponentLeft t="39%" l="78.%" w="4%" h="10%" id="130"/>
 {/*Fourth row of Maps*/}
    {/*Div for Booth 111*/}
-   <MyComponent t="56.5%" l="8.5%" w="4%" h="10%" id="111"/> 
+   <MyComponent t="50%" l="17%" w="4%" h="10%" id="111"/> 
   {/*Div for Booth 115*/}
-   <MyComponent t="56.5%" l="14%" w="4%" h="25%" id="115"/> 
+   <MyComponent t="50%" l="24%" w="4%" h="22%" id="115"/> 
    {/*Div for Booth 117*/}
-   <MyComponent t="56.5%" l="24%" w="4%" h="24%" id="117"/> 
+   <MyComponent t="50%" l="38%" w="4%" h="22%" id="117"/> 
    {/*Div for Booth 120*/} 
-   <MyComponentLeft t="56.5%" l="33.0%" w="4%" h="10%" id="120"/> 
+   <MyComponentLeft t="50%" l="51.0%" w="4%" h="10%" id="120"/> 
   {/*Div for Booth 124*/}
-   <MyComponentLeft t="56.5%" l="38.0%" w="4%" h="10%" id="124"/>  
+   <MyComponentLeft t="50%" l="58.0%" w="4%" h="10%" id="124"/>  
    {/*Div for Booth 128*/}
-   <MyComponentLeft t="56.5%" l="47.5%" w="4%" h="24%" id="128"/>  
+   <MyComponentLeft t="50%" l="71%" w="4%" h="22%" id="128"/>  
    {/*Div for Booth 131*/}
-   <MyComponentLeft t="56.5%" l="53.0%" w="4%" h="10%" id="131"/>  
+   <MyComponentLeft t="50%" l="78%" w="4%" h="10%" id="131"/>  
 {/*FInal row of things*/}
  {/*Div for Booth 112*/}
-   <MyComponent t="70.25%" l="8.5%" w="4%" h="10%" id="112"/>
+   <MyComponent t="62%" l="17%" w="4%" h="10%" id="112"/>
   {/*Div for Booth 121*/}
-   <MyComponentLeft t="70.25%" l="33%" w="4%" h="10%" id="121"/>
+   <MyComponentLeft t="62%" l="51%" w="4%" h="10%" id="121"/>
   {/*Div for Booth 125*/}
-   <MyComponentLeft t="70.25%" l="38%" w="4%" h="10%" id="125"/>
+   <MyComponentLeft t="62%" l="58%" w="4%" h="10%" id="125"/>
     {/*Div for Booth 132*/}
-   <MyComponentLeft t="70.25%" l="53%" w="4%" h="10%" id="132"/>
-  </div></FormContainer></Container>
+   <MyComponentLeft t="62%" l="78%" w="4%" h="10%" id="132"/>
+  </div></Container>
 );
 }
 }
