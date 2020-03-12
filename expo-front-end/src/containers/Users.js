@@ -19,7 +19,7 @@ export default class Table extends Component {
     });
   }
   goToUser(input,e){
-      let dest = '/userDetail?user_id='+input
+      let dest = '/UserDetail?user_id='+input
       this.setState({redirect:dest})
   }
 

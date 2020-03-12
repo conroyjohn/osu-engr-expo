@@ -16,6 +16,7 @@ import HelloWorld from "./containers/HelloWorld.js";
 import ChangePassword from "./containers/ChangePassword.js";
 import Register from "./containers/Register.js";
 import NotFound from "./containers/NotFound.js";
+import UserDetail from "./containers/UserDetail.js";
 
 const Routes = ({ appProps }) => {
   return (
@@ -39,6 +40,12 @@ const Routes = ({ appProps }) => {
         path="/ProjectDetail"
         exact
         component={ProjectDetail}
+        appProps={appProps}
+      />
+      <AppliedRoute
+        path="/UserDetail"
+        exact
+        component={UserDetail}
         appProps={appProps}
       />
       <AppliedRoute path="/Users" exact component={Users} appProps={appProps} />
