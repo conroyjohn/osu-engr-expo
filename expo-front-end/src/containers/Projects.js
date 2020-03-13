@@ -14,7 +14,7 @@ import AvatarImg from "../Images/avatar.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import { sizing } from "@material-ui/system";
 import styled from "styled-components";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink,Redirect } from "react-router-dom";
 
 const FlexContainer = styled(Container)`
   margin-top: ${({ theme }) => `${theme.spacing(5)}px`};
@@ -126,6 +126,19 @@ class Projects extends Component {
                     <RouterLink
                       to={{
                         pathname: "/ProjectDetail",
+                        state: {
+                          projData: proj
+                        }
+                      }}
+                    >
+                      Link to Project Page
+                    </RouterLink>
+                  </Typography>
+                  <br></br>
+                  <Typography>
+                    <RouterLink
+                      to={{
+                        pathname: "/EditProject?project_id="+proj.project_id,
                         state: {
                           projData: proj
                         }

@@ -41,7 +41,7 @@ def handler(event, context):
             "Access-Control-Allow-Methods" : "POST, OPTIONS" ,
             "Access-Control-Allow-Credentials" : True
         },
-        "body": json.dumps({"ERROR":"The required queryStringParameter [PROJECT_ID] is not present"})
+        "body": json.dumps({"ERROR":"The required queryStringParameter [USER_ID] is not present"})
         }
 
 
