@@ -143,3 +143,14 @@ image.igs {
   margin-left: auto;
   margin-right: auto;
 }
+
+.buttonLink{
+    color: #fff;
+    background-color: #1976d2;
+    font-size:medium;
+}
+
+.buttonLink:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}

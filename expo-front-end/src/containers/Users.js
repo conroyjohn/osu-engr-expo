@@ -29,7 +29,7 @@ export default class Table extends Component {
         <tr key={key} data-href='google.com'>
           <td>{users.display_name}</td>
           <td>{users.email}</td>
-          <td><button onClick={(e)=>this.goToUser(users.user_id,e)}>Go!</button></td>
+          <td><button class="buttonLink" onClick={(e)=>this.goToUser(users.user_id,e)}>Go!</button></td>
         </tr>
       );
     });

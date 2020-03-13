@@ -82,7 +82,8 @@ class Projects extends Component {
       this.setState(
         {
           isLoading: false,
-          data: responseJson
+          data: responseJson,
+          redirect:null
         },
         function() {}
       );
@@ -91,10 +92,20 @@ class Projects extends Component {
     }
   }
 
+  goToEditProject(input,e){
+      let dest = '/EditProject?project_id='+input
+      this.setState({redirect:dest})
+  }
+
   render() {
     const columnHeads = ["name", "school", "college", "description"];
     const start = (this.state.page - 1) * 10;
     const end = Math.min(start + 10, this.state.data.length);
+    if(this.state.redirect){
+        const {redirect}=this.state;
+        return <Redirect to={redirect} />
+    }
+
     if (this.state.isLoading) {
       return <div>Loading...</div>;
     } else {
@@ -135,18 +146,7 @@ class Projects extends Component {
                     </RouterLink>
                   </Typography>
                   <br></br>
-                  <Typography>
-                    <RouterLink
-                      to={{
-                        pathname: "/EditProject?project_id="+proj.project_id,
-                        state: {
-                          projData: proj
-                        }
-                      }}
-                    >
-                      Link to Project Page
-                    </RouterLink>
-                  </Typography>
+                  <button class="buttonLink" onClick={(e)=>this.goToEditProject(proj.project_id,e)}>Edit the Project</button>
                   <Typography>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Suspendisse malesuada lacus ex, sit amet blandit leo
