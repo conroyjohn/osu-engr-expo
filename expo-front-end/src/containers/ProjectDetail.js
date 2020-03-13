@@ -65,12 +65,7 @@ export default function ProjectDetail(props) {
           </Box>
         </StyledTypography>
 
-        <StyledTypography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-          lacus ex, sit amet blandit leo lobortis eget.
-        </StyledTypography>
+        <StyledTypography>{projData.description}</StyledTypography>
       </Container>
     </FlexContainer>
   );
