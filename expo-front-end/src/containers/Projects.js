@@ -14,7 +14,7 @@ import AvatarImg from "../Images/avatar.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import { sizing } from "@material-ui/system";
 import styled from "styled-components";
-import { Link as RouterLink,Redirect } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 
 const FlexContainer = styled(Container)`
   margin-top: ${({ theme }) => `${theme.spacing(5)}px`};
@@ -83,7 +83,7 @@ class Projects extends Component {
         {
           isLoading: false,
           data: responseJson,
-          redirect:null
+          redirect: null
         },
         function() {}
       );
@@ -92,18 +92,18 @@ class Projects extends Component {
     }
   }
 
-  goToEditProject(input,e){
-      let dest = '/EditProject?project_id='+input
-      this.setState({redirect:dest})
+  goToEditProject(input, e) {
+    let dest = "/EditProject?project_id=" + input;
+    this.setState({ redirect: dest });
   }
 
   render() {
     const columnHeads = ["name", "school", "college", "description"];
     const start = (this.state.page - 1) * 10;
     const end = Math.min(start + 10, this.state.data.length);
-    if(this.state.redirect){
-        const {redirect}=this.state;
-        return <Redirect to={redirect} />
+    if (this.state.redirect) {
+      const { redirect } = this.state;
+      return <Redirect to={redirect} />;
     }
 
     if (this.state.isLoading) {
@@ -145,15 +145,14 @@ class Projects extends Component {
                       Link to Project Page
                     </RouterLink>
                   </Typography>
-                  <br></br>
-                  <button class="buttonLink" onClick={(e)=>this.goToEditProject(proj.project_id,e)}>Edit the Project</button>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Suspendisse malesuada lacus ex, sit amet
-                    blandit leo lobortis eget.
-                  </Typography>
+                  <br />
+                  <button
+                    class="buttonLink"
+                    onClick={e => this.goToEditProject(proj.project_id, e)}
+                  >
+                    Edit the Project
+                  </button>
+                  <Typography>{proj.description}</Typography>
                 </StyledDetails>
               </StyledPanel>
             ))}
