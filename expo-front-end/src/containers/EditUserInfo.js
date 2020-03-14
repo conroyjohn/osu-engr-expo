@@ -32,15 +32,17 @@ class MyForm extends React.Component {
                   user_id:response['attributes']['sub']
           })
 
-          if(typeof userDetailInitJson["Item"]["links"]!== "undefined") {
+          if(userDetailInitJson["Item"]["links"]!==null) {
               this.setState({
                       links:userDetailInitJson["Item"]["links"]
               })
           }
-
+          
           this.setState({
                   isLoading:false
           })
+
+
 
       } catch (error) {
           console.error(error);
@@ -139,7 +141,6 @@ class MyForm extends React.Component {
 
 
                 <label>Reference links for the user</label>
-                <br></br>
 
                 {this.state.links.map((link, idx) => (
                   <div key={idx+1}>
@@ -184,91 +185,3 @@ class MyForm extends React.Component {
   }
 }
 export default MyForm;
-
-//
-//
-//
-//
-// import React, { Component } from "react";
-// import "../App.css";
-// import TableFilter from "react-table-filter";
-// import { Auth } from "aws-amplify";
-//
-// export default class Table extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       isLoading: true,
-//       data: {}
-//     };
-//   }
-//
-//   renderTableHeader(columnHeads) {
-//     return columnHeads.map((key, index) => {
-//        return <th key={index}>{key.toUpperCase()}</th>;
-//     });
-//   }
-//
-//   renderTableData() {
-//
-//     return this.state.data.map((projects, key) => {
-//       return (
-//         <tr key={key}>
-//           <td>{projects.display_name}</td>
-//           <td>{projects.email}</td>
-//           <td>{projects.description}</td>
-//         </tr>
-//       );
-//     });
-//   }
-//
-// 	async componentDidMount() {
-// 		try {
-// 			const response = await fetch('https://v5yyja3u9i.execute-api.us-east-1.amazonaws.com/v0/get-all-users');
-// 			let responseJson = await response.json();
-// 			this.setState(
-// 				{
-// 					isLoading: false,
-// 					data: responseJson
-// 				},
-// 				function() {}
-// 			);
-// 		} catch (error) {
-// 			console.error(error);
-// 		}
-// 	}
-//
-//   render() {
-//
-//     const columnHeads = [
-//     'name',
-//     'email',
-//     'description'
-//   ];
-//
-//
-//
-//
-//   if (this.state.isLoading) {
-//     return <div>Loading...</div>;
-//   } else {
-//
-//
-//     return (
-//       <div>
-//         <h1 id="title">Expo Members</h1>
-//         <table id="users">
-//           <thead>
-//           <tr>{this.renderTableHeader(columnHeads)}</tr>
-//           </thead>
-//           <tbody>
-//             {this.renderTableData()}
-//           </tbody>
-//         </table>
-//       </div>
-//     );
-//
-//
-//   }
-// }
-// }
